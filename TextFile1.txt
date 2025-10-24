@@ -1,0 +1,87 @@
+﻿1️⃣ Alternativ: “Clear + redraw”
+
+Det vanligaste och enklaste sättet i en grafritande app är:
+
+Graph.Children.Clear();  // ta bort alla gamla linjer/plots
+
+foreach(var function in Functions)
+{
+    var line = new Line();
+    line.X1 = ...;
+    line.Y1 = ...;
+    line.X2 = ...;
+    line.Y2 = ...;
+    line.Stroke = Brushes.Black;
+    Graph.Children.Add(line);
+}
+
+
+När man gör detta?
+
+1. När användaren zoomar eller panorerar.
+
+2. När en ny funktion läggs till.
+
+
+Nackdel:
+
+Om du har tusentals linjer kan det bli lite tungt.
+
+2️⃣ Alternativ: Uppdatera linjer istället för att rita om
+
+Om du vill spara resurser kan du hålla listor på linjer:
+
+List<Line> plottedLines = new List<Line>();
+
+
+När något ändras:
+
+Skapa nya linjer för nya funktioner → Graph.Children.Add()
+
+Ändra positionerna på befintliga linjer → uppdatera X1,Y1,X2,Y2
+
+Ta bort linjer som inte längre behövs → Graph.Children.Remove(line)
+
+Detta är mer “smart” och används i mer avancerade grafritare.
+
+3️⃣ Rekommendation för en begynnare / enkel grafritare
+
+För en första version (som GeoGebra-klon):
+
+Rita om hela Canvas varje gång något ändras
+
+Vid zoom, pan, ny funktion → Children.Clear() + loopa över alla funktioner och rita linjer.
+
+Håll alla funktioner i en lista (Functions) och iterera över dem.
+
+Lägg till axlar och grid separat, eller rita dem först varje gång.
+
+✅ Detta är lättast att förstå och debugga.
+
+
+4️⃣ Extra tips
+
+Linjer behöver inte vara “per pixel” — du kan t.ex. plotta varje 5:e pixel för bättre prestanda.
+
+Om du ritar väldigt många punkter kan du använda Polyline istället för massor av Line-objekt → mer effektivt.
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<!--
+    
+ROADMAP
+
+1. Grid + axes
+
+2. Draw simple points
+
+Parse y = x + 1 style expressions
+
+Draw the function on the grid
+
+Optional: multiple functions
+
+Optional: zoom/pan
+
+Ignore fancy UI, touch gestures, sliders — focus on a working graphing calculator.-->

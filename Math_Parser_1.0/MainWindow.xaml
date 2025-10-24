@@ -1,0 +1,133 @@
+﻿<Window x:Class="Math_Parser_1._0.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:UserControls="clr-namespace:Math_Parser_1._0.View.UserControls"
+        xmlns:local="clr-namespace:Math_Parser_1._0"
+       
+        mc:Ignorable="d"
+        Title="GeoGebra Classic" Height="600" Width="1150"
+        Icon="Assets/geogebra_ico.ico"
+        WindowStartupLocation="CenterOwner">
+ 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+      <!--menubar-->
+        <Grid Background="#f8f8f8">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="3, 0, 3, 0"/>
+                    <Setter Property="Width" Value="39"/>
+                    <Setter Property="Height" Value="39"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="#BBBBBB"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+
+                                <Border 
+             Background="{TemplateBinding Background}"
+             BorderBrush="{TemplateBinding BorderBrush}"
+             BorderThickness="{TemplateBinding BorderThickness}"
+             CornerRadius="5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="Blue"/>
+                        </Trigger>
+
+                       
+
+
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="510"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="180"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Name="cursor_btn" Click="cursor_btn_Click">
+                    <Image Margin="1" Source="Assets/cursor.png"></Image>
+                </Button>
+                <Button Name="punkt_btn" Click="punkt_btn_Click">
+                    <Image Margin="1" Source="Assets/punkt.png"></Image>
+                </Button>
+                <Button Name="linje_btn">
+                    <Image Margin="1" Source="Assets/linje.png"></Image>
+                </Button>
+                <Button Name="linjer_btn">
+                    <Image Margin="1" Source="Assets/linjer.png"></Image>
+                </Button>
+                <Button Name="polygon_btn">
+                    <Image Margin="1" Source="Assets/polygon.png"></Image>
+                </Button>
+                <Button Name="cirkel_btn">
+                    <Image Margin="1" Source="Assets/cirkel.png"></Image>
+                </Button>
+                <Button Name="elips_btn">
+                    <Image Margin="1" Source="Assets/elips.png"></Image>
+                </Button>
+                <Button Name="vinkel_btn">
+                    <Image Margin="1" Source="Assets/vinkel.png"></Image>
+                </Button>
+                <Button Name="spegla_btn">
+                    <Image Margin="1" Source="Assets/spegla.png"></Image>
+                </Button>
+                <Button Name="glidare_btn">
+                    <Image Margin="1" Source="Assets/glidare.png"></Image>
+                </Button>
+                <Button Name="flytta_btn">
+                    <Image Margin="1" Source="Assets/flytta.png"></Image>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                <Button Content="назад"/>
+                <Button Content="->"/>
+                <Button Content="0" />
+                <Button Name="menubtn" Content="=" Click="Menuwindowbtn_Click"/>
+            </StackPanel>
+
+        </Grid>
+      <!--main area-->
+        <Grid x:Name="mainAreaGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+      <!--inmatningsfält-->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                <ItemsControl ItemsSource="{Binding Items}" Name="Textboxes"/>
+            </ScrollViewer>
+
+            <GridSplitter Grid.Column="1" Background="Gray" HorizontalAlignment="Stretch"/>
+      <!--graph-->
+            <UserControls:GraphControl x:Name="graph" Grid.Column="2"/>
+            
+        </Grid>
+      <!--menuwindow-->
+        <Grid Grid.Row="1">
+            <UserControls:CustomMenu x:Name="menuControl" Visibility="Hidden"/>
+        </Grid>
+        
+    </Grid>
+</Window>
+

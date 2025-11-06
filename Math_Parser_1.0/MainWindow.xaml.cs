@@ -29,8 +29,6 @@ namespace Math_Parser_1._0
 
         }
 
-
-
         public void AddTextbox()
         {
             CustomTextBox tb = new CustomTextBox();
@@ -77,8 +75,6 @@ namespace Math_Parser_1._0
 
             }
 
-
-
         }
 
         private void punkt_btn_Click(object sender, RoutedEventArgs e)
@@ -88,6 +84,7 @@ namespace Math_Parser_1._0
             {
                 if (btn == clicked)
                 {
+                    graph.currentMode = new DrawPointMode();
                     btn.BorderBrush = Brushes.Blue;    // активная кнопка
                 }
 
@@ -97,8 +94,6 @@ namespace Math_Parser_1._0
                 }
 
             }
-
-            graph.currentMode = new DrawPointMode();
         }
     }
 

@@ -16,19 +16,42 @@ namespace Math_Parser_1._0.View.UserControls
         public static double offsetY = 0;
         public static double YAxiswidthOffset;
         private static double XAxisheightOffset;
-        private double distanceToX;
-        private double distanceToY;
+        public static List<GraphFigure> figures = new List<GraphFigure>();
+
         public interface IGraphMode
         {
             public static Point downPoint;
             public static Point uppPoint;
             public static Cursor _customCursor = new Cursor("Assets/drag_cursor.cur");
             void OnMouseDown(Canvas name, MouseButtonEventArgs e);
-            void OnMouseMove(Canvas name, MouseButtonEventArgs e);
+            void OnMouseMove(Canvas name, MouseEventArgs e);
             void OnMouseUp(Canvas name, MouseButtonEventArgs e);
 
 
         }
+        //идея с абстрактным классом. все разные фигуры аппдейтят свою позицию сами. перерисовка идет в ме
+        //тоде redrawallfigures где итерация через лист типа GraphFigure
+        public class GraphFigure
+        {
+            public string Name { get; set; }           // уникальное имя или идентификатор
+            public UIElement Element { get; set; }     // сама фигура (Ellipse, Line и т.д.)
+            public string Type { get; set; }           // "Point", "Line", "Ellipse" — для фильтров
+        
+
+            public GraphFigure(string name, string type, UIElement element)
+            {
+                Name = name;
+                Type = type;
+                Element = element;
+              
+            }
+
+            public void UpdatePosition(double offsetX, double offsetY, double zoomFactor = 1)
+            {
+                
+            }
+        }
+
 
 
         public GraphControl()
@@ -47,8 +70,9 @@ namespace Math_Parser_1._0.View.UserControls
             Graph.SizeChanged += (s, e) =>
             {
                 Graph.Children.Clear();
-                DrawGrid(Brushes.Gray, 1);
                 DrawAxes(Brushes.Black, 2);
+                DrawGrid(Brushes.Gray, 1);
+                DrawEveryFigure();
             };
 
          
@@ -59,6 +83,9 @@ namespace Math_Parser_1._0.View.UserControls
 
         }
 
+
+       
+
         private void Graph_MouseUp(object sender, MouseButtonEventArgs e)
         {
             currentMode.OnMouseUp(Graph, e);
@@ -66,10 +93,25 @@ namespace Math_Parser_1._0.View.UserControls
             Graph.Children.Clear();
             DrawAxes(Brushes.Black, 2);
             DrawGrid(Brushes.Gray, 1);
-            
+            DrawEveryFigure();
 
         }
-      
+        private void Graph_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            currentMode.OnMouseDown(Graph, e);
+        }
+
+        public static void CalculateOffset(Point one, Point two)
+        {
+
+
+            offsetY = two.Y - one.Y;
+            offsetX = two.X - one.X;
+
+            XAxisheightOffset = XAxisheightOffset + offsetY;
+            YAxiswidthOffset = YAxiswidthOffset + offsetX;
+
+        }
 
         void DrawAxes(Brush color, int thickness)
         {
@@ -136,23 +178,32 @@ namespace Math_Parser_1._0.View.UserControls
             }
 
         }
-
-        private void Graph_MouseDown(object sender, MouseButtonEventArgs e)
+        private void DrawEveryFigure()
         {
-            currentMode.OnMouseDown(Graph, e);
+            foreach (var f in figures)
+                Graph.Children.Add(f.Element);
         }
-
-        public static void CalculateOffset(Point one, Point two)
+        public void RemoveFigure(string name)
         {
-
-
-            offsetY = two.Y - one.Y;
-            offsetX = two.X - one.X;
-
-            XAxisheightOffset = XAxisheightOffset + offsetY;
-            YAxiswidthOffset = YAxiswidthOffset + offsetX;
-
+            var fig = figures.FirstOrDefault(f => f.Name == name);
+            if (fig != null)
+            {
+                Graph.Children.Remove(fig.Element); // убираем с Canvas
+                figures.Remove(fig);                // убираем из списка
+            }
         }
+        public void RemoveAllPoints()
+        {
+            var points = figures.Where(f => f.Type == "Point").ToList();
+            foreach (var p in points)
+            {
+                Graph.Children.Remove(p.Element);
+                figures.Remove(p);
+            }
+        }
+        
+
+
     }
 }
 

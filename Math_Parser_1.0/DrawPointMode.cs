@@ -11,7 +11,7 @@ namespace Math_Parser_1._0
             // Implementation goes here
         }
 
-        public void OnMouseMove()
+        public void OnMouseMove(Canvas name, MouseButtonEventArgs e)
         {
             // Implementation goes here
         }

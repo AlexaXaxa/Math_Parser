@@ -14,8 +14,8 @@ namespace Math_Parser_1._0.View.UserControls
         public IGraphMode currentMode;
         public static double offsetX = 0;
         public static double offsetY = 0;
-        public double YwidthOffset;
-        private double XheightOffset;
+        public static double YAxiswidthOffset;
+        private static double XAxisheightOffset;
         private double distanceToX;
         private double distanceToY;
         public interface IGraphMode
@@ -24,7 +24,7 @@ namespace Math_Parser_1._0.View.UserControls
             public static Point uppPoint;
             public static Cursor _customCursor = new Cursor("Assets/drag_cursor.cur");
             void OnMouseDown(Canvas name, MouseButtonEventArgs e);
-            void OnMouseMove();
+            void OnMouseMove(Canvas name, MouseButtonEventArgs e);
             void OnMouseUp(Canvas name, MouseButtonEventArgs e);
 
 
@@ -37,8 +37,8 @@ namespace Math_Parser_1._0.View.UserControls
 
             Graph.Loaded += (s, e) =>
             {
-                XheightOffset = Graph.ActualHeight / 2;
-                YwidthOffset = Graph.ActualWidth / 2;
+                XAxisheightOffset = Graph.ActualHeight / 2;
+                YAxiswidthOffset = Graph.ActualWidth / 2;
                 Graph.Children.Clear();
                 DrawGrid(Brushes.Gray, 1);
                 DrawAxes(Brushes.Black, 2);
@@ -62,28 +62,14 @@ namespace Math_Parser_1._0.View.UserControls
         private void Graph_MouseUp(object sender, MouseButtonEventArgs e)
         {
             currentMode.OnMouseUp(Graph, e);
-            //RedrawAll();
+          
             Graph.Children.Clear();
-
-            DrawGrid(Brushes.Gray, 1);
             DrawAxes(Brushes.Black, 2);
+            DrawGrid(Brushes.Gray, 1);
+            
 
         }
-        //void RedrawAll()
-        //{
-        //    Graph.Children.Clear();
-
-        //    // 1️⃣ Update axis offsets first
-        //    // offsetX and offsetY are the current shifts (based on pan)
-        //    XheightOffset = XheightOffset + offsetY;
-        //    YwidthOffset = YwidthOffset + offsetX;
-
-        //    // 2️⃣ Draw grid RELATIVE to updated offsets
-        //    DrawGrid(Brushes.LightGray, 1);
-
-        //    // 3️⃣ Draw axes using the same offsets
-        //    DrawAxes(Brushes.Black, 2);
-        //}
+      
 
         void DrawAxes(Brush color, int thickness)
         {
@@ -91,8 +77,8 @@ namespace Math_Parser_1._0.View.UserControls
             Yaxis.Stroke = color;
             Yaxis.StrokeThickness = thickness;
 
-            Yaxis.X1 = YwidthOffset + offsetX;
-            Yaxis.X2 = YwidthOffset + offsetX;
+            Yaxis.X1 = YAxiswidthOffset;
+            Yaxis.X2 = YAxiswidthOffset;
             Yaxis.Y1 = 0;
             Yaxis.Y2 = Graph.ActualHeight;
 
@@ -104,33 +90,34 @@ namespace Math_Parser_1._0.View.UserControls
 
             Xaxis.X1 = 0;
             Xaxis.X2 = Graph.ActualWidth;
-            Xaxis.Y1 = XheightOffset + offsetY;
-            Xaxis.Y2 = XheightOffset + offsetY;
+            Xaxis.Y1 = XAxisheightOffset;
+            Xaxis.Y2 = XAxisheightOffset;
 
             Graph.Children.Add(Xaxis);
 
-            XheightOffset = XheightOffset + offsetY;
-            YwidthOffset = YwidthOffset + offsetX;
+           
         }
         void DrawGrid(Brush color, int thickness)
         {
-            //берет старое значение оси
-            double remainder = YwidthOffset % 50;
-           
-            for (double i = remainder; i<Graph.ActualWidth;i+=50 )
+            //YGrid
+            double remainder = YAxiswidthOffset % 50;
+            for (double i = remainder; i<Graph.ActualWidth; i+=50 )
             {
                 var Yaxis = new Line();
                 Yaxis.Stroke = color;
                 Yaxis.StrokeThickness = thickness;
 
-                Yaxis.X1 = i + offsetX;
-                Yaxis.X2 = i + offsetX;
+                Yaxis.X1 = i;
+                Yaxis.X2 = i;
                 Yaxis.Y1 = 0;
                 Yaxis.Y2 = Graph.ActualHeight;
 
-                Graph.Children.Add(Yaxis);
+ 
+                if (Yaxis.X1 != YAxiswidthOffset || Yaxis.X2 != YAxiswidthOffset || Yaxis.Y1 != 0 || Yaxis.Y2 != Graph.ActualHeight)
+                    Graph.Children.Add(Yaxis);
             }
-            remainder = XheightOffset % 50;
+            //XGrid
+            remainder = XAxisheightOffset % 50;
             for (double i = remainder; i < Graph.ActualHeight; i += 50)
             {
                 var Xaxis = new Line();
@@ -139,12 +126,15 @@ namespace Math_Parser_1._0.View.UserControls
 
                 Xaxis.X1 = 0;
                 Xaxis.X2 = Graph.ActualWidth;
-                Xaxis.Y1 = i + offsetY;
-                Xaxis.Y2 = i + offsetY;
+                Xaxis.Y1 = i;
+                Xaxis.Y2 = i;
 
-                Graph.Children.Add(Xaxis);
+
+                if (Xaxis.X1 != 0 || Xaxis.X2 != Graph.ActualWidth || Xaxis.Y1 != XAxisheightOffset || Xaxis.Y2 != XAxisheightOffset)
+                    Graph.Children.Add(Xaxis);
+            
             }
-       
+
         }
 
         private void Graph_MouseDown(object sender, MouseButtonEventArgs e)
@@ -158,6 +148,9 @@ namespace Math_Parser_1._0.View.UserControls
 
             offsetY = two.Y - one.Y;
             offsetX = two.X - one.X;
+
+            XAxisheightOffset = XAxisheightOffset + offsetY;
+            YAxiswidthOffset = YAxiswidthOffset + offsetX;
 
         }
     }

@@ -18,42 +18,6 @@ namespace Math_Parser_1._0.View.UserControls
         private static double XAxisheightOffset;
         public static List<GraphFigure> figures = new List<GraphFigure>();
 
-        public interface IGraphMode
-        {
-            public static Point downPoint;
-            public static Point uppPoint;
-            public static Cursor _customCursor = new Cursor("Assets/drag_cursor.cur");
-            void OnMouseDown(Canvas name, MouseButtonEventArgs e);
-            void OnMouseMove(Canvas name, MouseEventArgs e);
-            void OnMouseUp(Canvas name, MouseButtonEventArgs e);
-
-
-        }
-        //идея с абстрактным классом. все разные фигуры аппдейтят свою позицию сами. перерисовка идет в ме
-        //тоде redrawallfigures где итерация через лист типа GraphFigure
-        public class GraphFigure
-        {
-            public string Name { get; set; }           // уникальное имя или идентификатор
-            public UIElement Element { get; set; }     // сама фигура (Ellipse, Line и т.д.)
-            public string Type { get; set; }           // "Point", "Line", "Ellipse" — для фильтров
-        
-
-            public GraphFigure(string name, string type, UIElement element)
-            {
-                Name = name;
-                Type = type;
-                Element = element;
-              
-            }
-
-            public void UpdatePosition(double offsetX, double offsetY, double zoomFactor = 1)
-            {
-                
-            }
-        }
-
-
-
         public GraphControl()
         {
             InitializeComponent();
@@ -72,19 +36,14 @@ namespace Math_Parser_1._0.View.UserControls
                 Graph.Children.Clear();
                 DrawAxes(Brushes.Black, 2);
                 DrawGrid(Brushes.Gray, 1);
-                DrawEveryFigure();
+                //DrawEveryFigure();
             };
-
-         
 
             Graph.MouseDown += Graph_MouseDown;
             Graph.MouseUp += Graph_MouseUp;
             Graph.Background = Brushes.Transparent; //не null
 
         }
-
-
-       
 
         private void Graph_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -93,6 +52,7 @@ namespace Math_Parser_1._0.View.UserControls
             Graph.Children.Clear();
             DrawAxes(Brushes.Black, 2);
             DrawGrid(Brushes.Gray, 1);
+
             DrawEveryFigure();
 
         }
@@ -101,12 +61,11 @@ namespace Math_Parser_1._0.View.UserControls
             currentMode.OnMouseDown(Graph, e);
         }
 
-        public static void CalculateOffset(Point one, Point two)
+        public static void CalculateOffset(Point down, Point up)
         {
 
-
-            offsetY = two.Y - one.Y;
-            offsetX = two.X - one.X;
+            offsetY = up.Y - down.Y;
+            offsetX = up.X - down.X;
 
             XAxisheightOffset = XAxisheightOffset + offsetY;
             YAxiswidthOffset = YAxiswidthOffset + offsetX;
@@ -178,31 +137,54 @@ namespace Math_Parser_1._0.View.UserControls
             }
 
         }
+
+        static public GraphPoint CreatePoint(MouseButtonEventArgs e, Canvas g)
+        {
+            Ellipse newPoint = new Ellipse();
+            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+
+            mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
+            newPoint.Fill = mySolidColorBrush;
+            newPoint.StrokeThickness = 1;
+            newPoint.Stroke = Brushes.Black;
+            newPoint.Width = 13;
+            newPoint.Height = 13;
+            Point position = e.GetPosition(g);
+
+            offsetX = 0;
+            offsetY = 0;
+
+            return new GraphPoint("some point", "Point", newPoint, position);
+        }
         private void DrawEveryFigure()
         {
+          
             foreach (var f in figures)
+            {
+                f.UpdatePosition(offsetX, offsetY);
                 Graph.Children.Add(f.Element);
-        }
-        public void RemoveFigure(string name)
-        {
-            var fig = figures.FirstOrDefault(f => f.Name == name);
-            if (fig != null)
-            {
-                Graph.Children.Remove(fig.Element); // убираем с Canvas
-                figures.Remove(fig);                // убираем из списка
             }
+                
         }
-        public void RemoveAllPoints()
-        {
-            var points = figures.Where(f => f.Type == "Point").ToList();
-            foreach (var p in points)
-            {
-                Graph.Children.Remove(p.Element);
-                figures.Remove(p);
-            }
-        }
-        
 
+        //public void RemoveFigure(string name)
+        //{
+        //    var fig = figures.FirstOrDefault(f => f.Name == name);
+        //    if (fig != null)
+        //    {
+        //        Graph.Children.Remove(fig.Element); // убираем с Canvas
+        //        figures.Remove(fig);                // убираем из списка
+        //    }
+        //}
+        //public void RemoveAllPoints()
+        //{
+        //    var points = figures.Where(f => f.Type == "Point").ToList();
+        //    foreach (var p in points)
+        //    {
+        //        Graph.Children.Remove(p.Element);
+        //        figures.Remove(p);
+        //    }
+        //}
 
     }
 }

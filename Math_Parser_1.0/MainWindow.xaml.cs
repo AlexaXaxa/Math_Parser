@@ -95,6 +95,25 @@ namespace Math_Parser_1._0
 
             }
         }
+
+        private void linje_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Button clicked = sender as Button;
+            foreach (var btn in modeButtons)
+            {
+                if (btn == clicked)
+                {
+                    graph.currentMode = new DrawSegmentMode();
+                    btn.BorderBrush = Brushes.Blue;    // активная кнопка
+                }
+
+                else
+                {
+                    btn.ClearValue(Button.BorderBrushProperty);    // неактивные
+                }
+
+            }
+        }
     }
 
 }

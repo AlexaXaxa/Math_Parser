@@ -69,7 +69,7 @@
                 <Button Name="punkt_btn" Click="punkt_btn_Click">
                     <Image Margin="1" Source="Assets/punkt.png"></Image>
                 </Button>
-                <Button Name="linje_btn">
+                <Button Name="linje_btn" Click="linje_btn_Click">
                     <Image Margin="1" Source="Assets/linje.png"></Image>
                 </Button>
                 <Button Name="linjer_btn">

@@ -14,12 +14,29 @@
 
         <Button x:Name="btnPlus" FontSize="30" VerticalContentAlignment="Center" Content="+" Padding="0,0,0,10"/>
 
-        <TextBox x:Name="txtInput" Grid.Column="1" VerticalContentAlignment="Center" FontSize="17" FontWeight="Light" KeyDown="TextBox_KeyDown"/>
+        <TextBox x:Name="txtInput" 
+                 Grid.Column="1" 
+                 VerticalContentAlignment="Center" 
+                 FontSize="17" 
+                 FontWeight="Light" 
+                 KeyDown="TextBox_KeyDown"
+                 Background="Transparent"
+                 Panel.ZIndex="1"
+                 TextChanged="txtInput_TextChanged"/>
         <TextBlock x:Name="tblPlaceholder" Grid.Column="1" Text="Inmatningsfält..." FontSize="17" FontWeight="Light" Margin="7, 0, 0, 0" VerticalAlignment="Center" Foreground="DarkGray"/>
-        <Button x:Name="btnClear" Grid.Column="1" Width="50" FontSize="17" HorizontalAlignment="Right" Content=":" Background="Transparent" Click="btnClear_Click">
+        
+        <Button x:Name="btnClear" 
+                Grid.Column="1" 
+                Width="50" 
+                FontSize="17" 
+                HorizontalAlignment="Right" 
+                Content=":" 
+                Background="Transparent" 
+                Click="btnClear_Click"
+                Panel.ZIndex="2">
             <Button.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Radera" />
+                    <MenuItem Header="Radera" Click="Radera_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>

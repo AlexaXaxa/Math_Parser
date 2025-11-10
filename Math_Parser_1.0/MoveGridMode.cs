@@ -11,7 +11,7 @@ namespace Math_Parser_1._0
     {
 
 
-        public void OnMouseDown(Canvas g, MouseButtonEventArgs e)
+        public string OnMouseDown(Canvas g, MouseButtonEventArgs e)
         {
 
             g.Cursor = IGraphMode._customCursor;
@@ -19,7 +19,7 @@ namespace Math_Parser_1._0
             IGraphMode.downPoint = e.GetPosition(g);
             double x = IGraphMode.downPoint.X;
             double y = IGraphMode.downPoint.Y;
-
+            return "0";
         }
 
         public void OnMouseMove(Canvas g, MouseEventArgs e)

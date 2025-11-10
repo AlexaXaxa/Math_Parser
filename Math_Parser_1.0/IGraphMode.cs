@@ -14,7 +14,7 @@ namespace Math_Parser_1._0
         public static Point downPoint;
         public static Point uppPoint;
         public static Cursor _customCursor = new Cursor("Assets/drag_cursor.cur");
-        void OnMouseDown(Canvas name, MouseButtonEventArgs e);
+        string OnMouseDown(Canvas name, MouseButtonEventArgs e);
         void OnMouseMove(Canvas name, MouseEventArgs e);
         void OnMouseUp(Canvas name, MouseButtonEventArgs e);
     }

@@ -6,9 +6,10 @@ namespace Math_Parser_1._0
 {
     class DrawLineMode : IGraphMode
     {
-        public void OnMouseDown(Canvas g, MouseButtonEventArgs e)
+        public string OnMouseDown(Canvas g, MouseButtonEventArgs e)
         {
             // Implementation goes here
+            return "0";
         }
 
         public void OnMouseMove(Canvas name, MouseEventArgs e)

@@ -9,6 +9,8 @@ namespace Math_Parser_1._0.View.UserControls
     /// </summary>
     public partial class CustomTextBox : UserControl
     {
+        public event Action<CustomTextBox> DeleteRequested;
+
         public event EventHandler EnterPressed;
 
         public CustomTextBox()
@@ -32,6 +34,26 @@ namespace Math_Parser_1._0.View.UserControls
             var btn = sender as Button;
             btn.ContextMenu.IsOpen = true;
 
+        }
+
+        private void Radera_Click(object sender, RoutedEventArgs e)
+        {
+            txtInput.Clear();
+            DeleteRequested?.Invoke(this);
+            txtInput.Focus();
+        }
+
+        private void txtInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           if(string.IsNullOrEmpty(txtInput.Text))
+           {
+                tblPlaceholder.Visibility = Visibility.Visible;
+           }
+           else
+           {
+                tblPlaceholder.Visibility = Visibility.Hidden;
+           }
+                
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Math_Parser_1._0
 
         public List<Button> modeButtons = new List<Button>();
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,11 +29,21 @@ namespace Math_Parser_1._0
 
             cursor_btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
+            graph.PointCreated += OnPointCreated;
+
+        }
+
+        private void OnPointCreated(string text)
+        {
+            
+            Items.Last().txtInput.Text = text;
+            AddTextbox();
         }
 
         public void AddTextbox()
         {
             CustomTextBox tb = new CustomTextBox();
+            tb.DeleteRequested += Tb_DeleteRequested;
             tb.EnterPressed += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(Items[Items.Count - 1].txtInput.Text))
@@ -47,6 +58,12 @@ namespace Math_Parser_1._0
             ; //textbox lyssnar på enterpressed event
             Items.Add(tb);
         }
+        private void Tb_DeleteRequested(CustomTextBox tb)
+        {
+            // Remove from ObservableCollection
+            Items.Remove(tb);
+        }
+
 
         private void Menuwindowbtn_Click(object sender, RoutedEventArgs e)
         {

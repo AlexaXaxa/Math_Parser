@@ -20,7 +20,7 @@ namespace Math_Parser_1._0
         double clickRadius = 10;
 
 
-        public void OnMouseDown(Canvas name, MouseButtonEventArgs e)
+        public string OnMouseDown(Canvas name, MouseButtonEventArgs e)
         {
             var position = e.GetPosition(name);
             if (Polygon.Count == 0)
@@ -118,10 +118,10 @@ namespace Math_Parser_1._0
                     }
                 }
             }
-              
-            
-           
-           
+
+            return "0";
+
+
 
         }
 

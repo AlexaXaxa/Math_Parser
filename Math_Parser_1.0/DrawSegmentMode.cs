@@ -15,12 +15,13 @@ namespace Math_Parser_1._0
     internal class DrawSegmentMode : IGraphMode
     {
         
-        public void OnMouseDown(Canvas name, MouseButtonEventArgs e)
+        public string OnMouseDown(Canvas name, MouseButtonEventArgs e)
         {
             CreateSegment(e, name);
 
 
-            
+            return "0";
+
 
         }
 

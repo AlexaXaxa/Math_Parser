@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Math_Parser_1._0;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -23,6 +24,8 @@ namespace Math_Parser_1._0.View.UserControls
         public static bool setPoint = true;
         public static GraphPoint point1 = null;
         public static GraphPoint point2;
+
+        public event Action<string> PointCreated;
 
         public GraphControl()
         {
@@ -64,7 +67,9 @@ namespace Math_Parser_1._0.View.UserControls
         }
         private void Graph_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            currentMode.OnMouseDown(Graph, e);
+            string t = currentMode.OnMouseDown(Graph, e);
+            if (currentMode is DrawPointMode)
+                PointCreated?.Invoke(t);
         }
 
         public static void CalculateOffset(Point down, Point up)
@@ -164,8 +169,6 @@ namespace Math_Parser_1._0.View.UserControls
         }
         static public void CreateSegment(MouseButtonEventArgs e, Canvas name)
         {
-            
-           
 
             if (setPoint)
             {

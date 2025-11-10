@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+  
 
 namespace Math_Parser_1._0
 {
     public class GraphPoint: GraphFigure
     {
         public Point Position { get; set; }
-        
+        private double pointRadius = View.UserControls.GraphControl.pointDiameter / 2;
+
+
         public GraphPoint(string name, string type, UIElement element, Point pos): base( name,  type)
         {
             Name = name;
@@ -26,8 +29,8 @@ namespace Math_Parser_1._0
             var tempPosition = new Point(Position.X + offsetX, Position.Y + offsetY);
             Position = tempPosition;
 
-            Canvas.SetLeft(Element, Position.X);
-            Canvas.SetTop(Element, Position.Y);
+            Canvas.SetLeft(Element, Position.X - pointRadius);
+            Canvas.SetTop(Element, Position.Y - pointRadius);
         }
 
     }

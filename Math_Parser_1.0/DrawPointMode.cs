@@ -26,5 +26,7 @@ namespace Math_Parser_1._0
         {
             // Implementation goes here
         }
+
+      
     }
 }

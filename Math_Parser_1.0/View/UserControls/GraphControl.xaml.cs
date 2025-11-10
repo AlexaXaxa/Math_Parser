@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System.Security.Cryptography;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -17,6 +19,10 @@ namespace Math_Parser_1._0.View.UserControls
         public static double YAxiswidthOffset;
         private static double XAxisheightOffset;
         public static List<GraphFigure> figures = new List<GraphFigure>();
+        public static double pointDiameter = 13;
+        public static bool setPoint = true;
+        public static GraphPoint point1 = null;
+        public static GraphPoint point2;
 
         public GraphControl()
         {
@@ -36,7 +42,7 @@ namespace Math_Parser_1._0.View.UserControls
                 Graph.Children.Clear();
                 DrawAxes(Brushes.Black, 2);
                 DrawGrid(Brushes.Gray, 1);
-                //DrawEveryFigure();
+                DrawEveryFigure();
             };
 
             Graph.MouseDown += Graph_MouseDown;
@@ -147,8 +153,8 @@ namespace Math_Parser_1._0.View.UserControls
             newPoint.Fill = mySolidColorBrush;
             newPoint.StrokeThickness = 1;
             newPoint.Stroke = Brushes.Black;
-            newPoint.Width = 13;
-            newPoint.Height = 13;
+            newPoint.Width = pointDiameter;
+            newPoint.Height = pointDiameter;
             Point position = e.GetPosition(g);
 
             offsetX = 0;
@@ -156,6 +162,39 @@ namespace Math_Parser_1._0.View.UserControls
 
             return new GraphPoint("some point", "Point", newPoint, position);
         }
+        static public void CreateSegment(MouseButtonEventArgs e, Canvas name)
+        {
+            
+           
+
+            if (setPoint)
+            {
+                point1 = CreatePoint(e, name);
+                figures.Add(point1);
+                setPoint = false;
+            }
+            else
+            {
+                point2 = CreatePoint(e, name);
+
+                figures.Add(point2);
+                var newLine = new Line();
+                newLine.Stroke = System.Windows.Media.Brushes.Gray;
+                newLine.X1 = point1.Position.X;
+                newLine.X2 = point2.Position.X;
+                newLine.Y1 = point1.Position.Y;
+                newLine.Y2 = point2.Position.Y;
+
+
+                newLine.HorizontalAlignment = HorizontalAlignment.Left;
+                newLine.VerticalAlignment = VerticalAlignment.Center;
+                newLine.StrokeThickness = 3;
+                figures.Add(new GraphSegment("someSegment", "Segment", newLine, newLine));
+                setPoint = true;
+            }
+
+        }
+
         private void DrawEveryFigure()
         {
           

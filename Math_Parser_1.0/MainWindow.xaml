@@ -75,7 +75,7 @@
                 <Button Name="linjer_btn">
                     <Image Margin="1" Source="Assets/linjer.png"></Image>
                 </Button>
-                <Button Name="polygon_btn">
+                <Button Name="polygon_btn" Click="polygon_btn_Click">
                     <Image Margin="1" Source="Assets/polygon.png"></Image>
                 </Button>
                 <Button Name="cirkel_btn">

@@ -24,6 +24,7 @@ namespace Math_Parser_1._0
             modeButtons.Add(cursor_btn);
             modeButtons.Add(punkt_btn);
             modeButtons.Add(linje_btn);
+            modeButtons.Add(polygon_btn);
 
             cursor_btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
@@ -104,6 +105,25 @@ namespace Math_Parser_1._0
                 if (btn == clicked)
                 {
                     graph.currentMode = new DrawSegmentMode();
+                    btn.BorderBrush = Brushes.Blue;    // активная кнопка
+                }
+
+                else
+                {
+                    btn.ClearValue(Button.BorderBrushProperty);    // неактивные
+                }
+
+            }
+        }
+
+        private void polygon_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Button clicked = sender as Button;
+            foreach (var btn in modeButtons)
+            {
+                if (btn == clicked)
+                {
+                    graph.currentMode = new DrawPolygonMode();
                     btn.BorderBrush = Brushes.Blue;    // активная кнопка
                 }
 

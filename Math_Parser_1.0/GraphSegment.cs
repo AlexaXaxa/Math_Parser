@@ -11,24 +11,32 @@ namespace Math_Parser_1._0
 {
     internal class GraphSegment : GraphFigure
     {
-        GraphPoint P1 { get; set; }
-        GraphPoint P2 { get; set; }
+     
+        public Point Position { get; set; }
+
+        Line Line { get; set; }
+
        
-        public GraphSegment(string name, string type, UIElement element, GraphPoint point1, GraphPoint point2) : base(name, type)
+        public GraphSegment(string name, string type, UIElement element, Line element2) : base(name, type)
         {
             Name = name;
             Type = type;
+            //Element och Line är REFERENSER till samma skickade object.
             Element = element;
-            P1 = point1;
-            P2 = point2;
+            Line = element2;
+
         }
 
         public override void UpdatePosition(double offsetX, double offsetY)
         {
-            //Element.X1 = P1.X;
-            //Element.X2 = P2.X;
-            //Element.Y1 = P1.Y;
-            //Element.Y2 = P2.Y;
+            
+            //Jag ändrar Line som pekar på samma object som Element.
+            //När jag kallar elemet är den ändrat för att Line hade ändrar den.
+            Line.X1 = Line.X1 + offsetX;
+            Line.X2 = Line.X2 + offsetX;
+            Line.Y1 = Line.Y1 + offsetY;
+            Line.Y2 = Line.Y2 + offsetY;
+      
         }
     }
 }

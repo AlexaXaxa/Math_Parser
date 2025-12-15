@@ -11,7 +11,7 @@ namespace Math_Parser_1._0.View.UserControls
     {
         public event Action<CustomTextBox> DeleteRequested;
 
-        public event EventHandler EnterPressed;
+        public event EventHandler<string> EnterPressed;
 
         public CustomTextBox()
         {
@@ -24,7 +24,7 @@ namespace Math_Parser_1._0.View.UserControls
         {
             if (e.Key == Key.Enter)
             {
-                EnterPressed?.Invoke(this, EventArgs.Empty);
+                EnterPressed?.Invoke(this, txtInput.Text);
             }
         }
 

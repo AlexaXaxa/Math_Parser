@@ -72,4 +72,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="parsertut">
+      <HintPath>..\..\parsertut\parsertut\bin\Debug\net9.0-windows\parsertut.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

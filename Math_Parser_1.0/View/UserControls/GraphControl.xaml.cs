@@ -19,7 +19,9 @@ namespace Math_Parser_1._0.View.UserControls
         public static double offsetY = 0;
         public static double YAxiswidthOffset;
         private static double XAxisheightOffset;
+
         public static List<GraphFigure> figures = new List<GraphFigure>();
+
         public static double pointDiameter = 13;
         public static bool setPoint = true;
         public static GraphPoint point1 = null;
@@ -51,7 +53,7 @@ namespace Math_Parser_1._0.View.UserControls
             Graph.MouseDown += Graph_MouseDown;
             Graph.MouseUp += Graph_MouseUp;
             Graph.Background = Brushes.Transparent; //не null
-
+            
         }
 
         private void Graph_MouseUp(object sender, MouseButtonEventArgs e)

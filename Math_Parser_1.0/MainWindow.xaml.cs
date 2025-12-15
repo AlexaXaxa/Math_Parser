@@ -1,5 +1,7 @@
 ﻿using Math_Parser_1._0.View.UserControls;
+using parsertut;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,14 +13,17 @@ namespace Math_Parser_1._0
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<CustomTextBox> Items { get; set; } = [];
+        public ObservableCollection<UIElement> Items { get; set; } = [];
 
         public List<Button> modeButtons = new List<Button>();
 
+        public Context ctx = new Context();
 
         public MainWindow()
         {
+            
             InitializeComponent();
+           
             DataContext = this;
             AddTextbox();
 
@@ -35,8 +40,10 @@ namespace Math_Parser_1._0
 
         private void OnPointCreated(string text)
         {
-            
-            Items.Last().txtInput.Text = text;
+            var lastInput = Items.OfType<CustomTextBox>().LastOrDefault();
+            if (lastInput == null)
+                return;
+            lastInput.txtInput.Text = text;
             AddTextbox();
         }
 
@@ -44,27 +51,72 @@ namespace Math_Parser_1._0
         {
             CustomTextBox tb = new CustomTextBox();
             tb.DeleteRequested += Tb_DeleteRequested;
-            tb.EnterPressed += (s, e) =>
+            tb.EnterPressed += (sender, text) =>
             {
-                if (string.IsNullOrWhiteSpace(Items[Items.Count - 1].txtInput.Text))
+                var current = (CustomTextBox)sender;
+
+                if (string.IsNullOrWhiteSpace(text)) //если в боксе куда мы нажали энтер пусто
+                    return;
+
+                //если не пусто там где мы нажали
+                bool isLast = Items.OfType<CustomTextBox>().Last() == current;
+                if (isLast) //если не пусто в последнем
                 {
-                    //do nothing
-                }
-                else
-                {
+                    // Это последний textbox → нужно создать output
+                    AddTextBoxOutput(Parser.Parse(text).Eval(ctx).ToString());
+
+                    // а потом добавить новый textbox
                     AddTextbox();
                 }
+                else //если не путо в каком то другом
+                {
+                    // Это НЕ последний textbox → просто обновить output под ним
+                    int index = Items.IndexOf(current);
+                    // Output всегда стоит сразу после CustomTextBox
+                    OutputTextBox outBox = (OutputTextBox)Items[index + 1];
+
+
+                    //обработать текст
+                    var trimed = text.Trim();
+                    if (trimed.StartsWith("x="))
+                    {
+                        outBox.SetText(Parser.Parse(trimed).Eval(ctx).ToString());
+                        //DrawVerticalLine
+                    }
+                    else
+                    {
+                        outBox.SetText(Parser.Parse(text).Eval(ctx).ToString());
+                    }
+                    
+                }
+
+
+     
             }
             ; //textbox lyssnar på enterpressed event
             Items.Add(tb);
         }
+        public void AddTextBoxOutput(string output)
+        {
+            OutputTextBox tb = new OutputTextBox(output);
+            Items.Add(tb);
+        }
         private void Tb_DeleteRequested(CustomTextBox tb)
         {
-            // Remove from ObservableCollection
-            Items.Remove(tb);
+
+            if(Items.Count > 2)
+            {
+                Items.RemoveAt(Items.IndexOf(tb) + 1);
+                Items.Remove(tb);
+
+            }
+
+
+            //GraphControl.figures.RemoveAll(f => f.Name == tb.Content);
+
         }
 
-
+//____________________________MENU_BUTTON_______________________________________________________________//
         private void Menuwindowbtn_Click(object sender, RoutedEventArgs e)
         {
             if (menuControl.Visibility == Visibility.Visible)
@@ -73,15 +125,14 @@ namespace Math_Parser_1._0
                 menuControl.Visibility = Visibility.Visible;
         }
 
-        private void cursor_btn_Click(object sender, RoutedEventArgs e)
+//____________________________BUTTONS________________________________________________________________//
+        private void SetMode(Button clicked, IGraphMode mode)
         {
-            Button clicked = sender as Button;
-
             foreach (var btn in modeButtons)
             {
                 if (btn == clicked)
                 {
-                    graph.currentMode = new MoveGridMode();
+                    graph.currentMode = mode;
                     btn.BorderBrush = Brushes.Blue;    // активная кнопка                
 
                 }
@@ -92,64 +143,22 @@ namespace Math_Parser_1._0
                 }
 
             }
-
         }
-
+        private void cursor_btn_Click(object sender, RoutedEventArgs e)
+        {
+            SetMode(sender as Button, new MoveGridMode());
+        }
         private void punkt_btn_Click(object sender, RoutedEventArgs e)
         {
-            Button clicked = sender as Button;
-            foreach (var btn in modeButtons)
-            {
-                if (btn == clicked)
-                {
-                    graph.currentMode = new DrawPointMode();
-                    btn.BorderBrush = Brushes.Blue;    // активная кнопка
-                }
-
-                else
-                {
-                    btn.ClearValue(Button.BorderBrushProperty);    // неактивные
-                }
-
-            }
+            SetMode(sender as Button, new DrawPointMode());
         }
-
         private void linje_btn_Click(object sender, RoutedEventArgs e)
         {
-            Button clicked = sender as Button;
-            foreach (var btn in modeButtons)
-            {
-                if (btn == clicked)
-                {
-                    graph.currentMode = new DrawSegmentMode();
-                    btn.BorderBrush = Brushes.Blue;    // активная кнопка
-                }
-
-                else
-                {
-                    btn.ClearValue(Button.BorderBrushProperty);    // неактивные
-                }
-
-            }
+            SetMode(sender as Button, new DrawSegmentMode());
         }
-
         private void polygon_btn_Click(object sender, RoutedEventArgs e)
         {
-            Button clicked = sender as Button;
-            foreach (var btn in modeButtons)
-            {
-                if (btn == clicked)
-                {
-                    graph.currentMode = new DrawPolygonMode();
-                    btn.BorderBrush = Brushes.Blue;    // активная кнопка
-                }
-
-                else
-                {
-                    btn.ClearValue(Button.BorderBrushProperty);    // неактивные
-                }
-
-            }
+            SetMode(sender as Button, new DrawPolygonMode());
         }
     }
 

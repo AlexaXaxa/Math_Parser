@@ -16,12 +16,21 @@ namespace Math_Parser_1._0
     class DrawPolygonMode : IGraphMode
     {
         LinkedList<Point> Polygon = new LinkedList<Point>();
+
         Point lastpoint;
         double clickRadius = 10;
 
 
         public string OnMouseDown(Canvas name, MouseButtonEventArgs e)
         {
+
+
+
+
+
+
+
+
             var position = e.GetPosition(name);
             if (Polygon.Count == 0)
             {

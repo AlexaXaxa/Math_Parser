@@ -23,6 +23,7 @@
                  Background="Transparent"
                  Panel.ZIndex="1"
                  TextChanged="txtInput_TextChanged"/>
+        
         <TextBlock x:Name="tblPlaceholder" Grid.Column="1" Text="Inmatningsfält..." FontSize="17" FontWeight="Light" Margin="7, 0, 0, 0" VerticalAlignment="Center" Foreground="DarkGray"/>
         
         <Button x:Name="btnClear" 

@@ -11,7 +11,7 @@ namespace Math_Parser_1._0.View.UserControls
     {
         public event Action<CustomTextBox> DeleteRequested;
 
-        public event EventHandler<string> EnterPressed;
+        public event Action<CustomTextBox, string> EnterPressed;
 
         public CustomTextBox()
         {

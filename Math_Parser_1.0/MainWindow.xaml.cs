@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Math_Parser_1._0
 {
@@ -51,49 +52,7 @@ namespace Math_Parser_1._0
         {
             CustomTextBox tb = new CustomTextBox();
             tb.DeleteRequested += Tb_DeleteRequested;
-            tb.EnterPressed += (sender, text) =>
-            {
-                var current = (CustomTextBox)sender;
-
-                if (string.IsNullOrWhiteSpace(text)) //если в боксе куда мы нажали энтер пусто
-                    return;
-
-                //если не пусто там где мы нажали
-                bool isLast = Items.OfType<CustomTextBox>().Last() == current;
-                if (isLast) //если не пусто в последнем
-                {
-                    // Это последний textbox → нужно создать output
-                    AddTextBoxOutput(Parser.Parse(text).Eval(ctx).ToString());
-
-                    // а потом добавить новый textbox
-                    AddTextbox();
-                }
-                else //если не путо в каком то другом
-                {
-                    // Это НЕ последний textbox → просто обновить output под ним
-                    int index = Items.IndexOf(current);
-                    // Output всегда стоит сразу после CustomTextBox
-                    OutputTextBox outBox = (OutputTextBox)Items[index + 1];
-
-
-                    //обработать текст
-                    var trimed = text.Trim();
-                    if (trimed.StartsWith("x="))
-                    {
-                        outBox.SetText(Parser.Parse(trimed).Eval(ctx).ToString());
-                        //DrawVerticalLine
-                    }
-                    else
-                    {
-                        outBox.SetText(Parser.Parse(text).Eval(ctx).ToString());
-                    }
-                    
-                }
-
-
-     
-            }
-            ; //textbox lyssnar på enterpressed event
+            tb.EnterPressed += Tb_EnterPressed;//textbox lyssnar på enterpressed event
             Items.Add(tb);
         }
         public void AddTextBoxOutput(string output)
@@ -108,12 +67,58 @@ namespace Math_Parser_1._0
             {
                 Items.RemoveAt(Items.IndexOf(tb) + 1);
                 Items.Remove(tb);
+                //if tb inehåller variabel assignment radera den ur context
 
+           
             }
 
 
             //GraphControl.figures.RemoveAll(f => f.Name == tb.Content);
 
+        }
+        private void Tb_EnterPressed(CustomTextBox sender, string text)
+        {
+            var current = (CustomTextBox)sender;
+
+            if (string.IsNullOrWhiteSpace(text)) //если в боксе куда мы нажали энтер пусто
+                return;
+
+            //если не пусто там где мы нажали
+            bool isLast = Items.OfType<CustomTextBox>().Last() == current;
+            if (isLast) //если не пусто в последнем
+            {
+                // Это последний textbox → нужно создать output
+                AddTextBoxOutput(Parser.Parse(text).Eval(ctx).ToString());
+
+                // а потом добавить новый textbox
+                AddTextbox();
+            }
+            else //если не путо в каком то другом
+            {
+                // Это НЕ последний textbox → просто обновить output под ним
+                int index = Items.IndexOf(current);
+                // Output всегда стоит сразу после CustomTextBox
+                OutputTextBox outBox = (OutputTextBox)Items[index + 1];
+
+
+                //обработать текст
+                var trimed = text.Trim();
+                if (trimed.StartsWith("x="))
+                {
+                    outBox.SetText(Parser.Parse(trimed).Eval(ctx).ToString());
+                    //DrawVerticalLine
+                }
+                else //если текст поменялся
+                {
+                    outBox.SetText(Parser.Parse(text).Eval(ctx).ToString());
+                }
+
+            }
+
+
+
+            
+            
         }
 
 //____________________________MENU_BUTTON_______________________________________________________________//

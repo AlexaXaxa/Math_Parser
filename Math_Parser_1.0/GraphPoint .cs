@@ -5,14 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
-  
+
 
 namespace Math_Parser_1._0
 {
     public class GraphPoint: GraphFigure
     {
         public Point Position { get; set; }
+
+        
+
         private double pointRadius = View.UserControls.GraphControl.pointDiameter / 2;
 
 

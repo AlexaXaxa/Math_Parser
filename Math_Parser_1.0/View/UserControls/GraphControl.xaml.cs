@@ -14,6 +14,7 @@ namespace Math_Parser_1._0.View.UserControls
     /// </summary>
     public partial class GraphControl : UserControl
     {
+        #region var declaration
         public IGraphMode currentMode;
         public static double offsetX = 0;
         public static double offsetY = 0;
@@ -29,6 +30,10 @@ namespace Math_Parser_1._0.View.UserControls
 
         public event Action<string> PointCreated;
 
+        private Point downPoint;
+        private Point uppPoint;
+        public static Cursor drag_cursor = new Cursor("Assets/drag_cursor.cur");
+        #endregion
         public GraphControl()
         {
             InitializeComponent();
@@ -47,33 +52,29 @@ namespace Math_Parser_1._0.View.UserControls
                 Graph.Children.Clear();
                 DrawAxes(Brushes.Black, 2);
                 DrawGrid(Brushes.Gray, 1);
-                DrawEveryFigure();
+                //DrawEveryFigure();
             };
 
-            Graph.MouseDown += Graph_MouseDown;
-            Graph.MouseUp += Graph_MouseUp;
-            Graph.Background = Brushes.Transparent; //не null
+            Graph.MouseDown += MouseDown;
+            Graph.MouseUp += MouseUp;
+            Graph.Background = Brushes.Transparent; //не null 
+        }
+        private void MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Graph.Cursor = drag_cursor;
+
+            downPoint = e.GetPosition(Graph);
+        }
+        private void MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Graph.Cursor = Cursors.Arrow;
+
+            uppPoint = e.GetPosition(Graph);
             
+            CalculateOffset(downPoint, uppPoint);
+
+            Redraw();
         }
-
-        private void Graph_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            currentMode.OnMouseUp(Graph, e);
-          
-            Graph.Children.Clear();
-            DrawAxes(Brushes.Black, 2);
-            DrawGrid(Brushes.Gray, 1);
-
-            DrawEveryFigure();
-
-        }
-        private void Graph_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            string t = currentMode.OnMouseDown(Graph, e);
-            if (currentMode is DrawPointMode)
-                PointCreated?.Invoke(t);
-        }
-
         public static void CalculateOffset(Point down, Point up)
         {
 
@@ -109,13 +110,13 @@ namespace Math_Parser_1._0.View.UserControls
 
             Graph.Children.Add(Xaxis);
 
-           
+
         }
         void DrawGrid(Brush color, int thickness)
         {
             //YGrid
             double remainder = YAxiswidthOffset % 50;
-            for (double i = remainder; i<Graph.ActualWidth; i+=50 )
+            for (double i = remainder; i < Graph.ActualWidth; i += 50)
             {
                 var Yaxis = new Line();
                 Yaxis.Stroke = color;
@@ -126,7 +127,7 @@ namespace Math_Parser_1._0.View.UserControls
                 Yaxis.Y1 = 0;
                 Yaxis.Y2 = Graph.ActualHeight;
 
- 
+
                 if (Yaxis.X1 != YAxiswidthOffset || Yaxis.X2 != YAxiswidthOffset || Yaxis.Y1 != 0 || Yaxis.Y2 != Graph.ActualHeight)
                     Graph.Children.Add(Yaxis);
             }
@@ -146,70 +147,77 @@ namespace Math_Parser_1._0.View.UserControls
 
                 if (Xaxis.X1 != 0 || Xaxis.X2 != Graph.ActualWidth || Xaxis.Y1 != XAxisheightOffset || Xaxis.Y2 != XAxisheightOffset)
                     Graph.Children.Add(Xaxis);
-            
+
             }
 
         }
-
-        static public GraphPoint CreatePoint(MouseButtonEventArgs e, Canvas g)
+        public void Redraw()
         {
-            Ellipse newPoint = new Ellipse();
-            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-
-            mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
-            newPoint.Fill = mySolidColorBrush;
-            newPoint.StrokeThickness = 1;
-            newPoint.Stroke = Brushes.Black;
-            newPoint.Width = pointDiameter;
-            newPoint.Height = pointDiameter;
-            Point position = e.GetPosition(g);
-
-            offsetX = 0;
-            offsetY = 0;
-
-            return new GraphPoint("some point", "Point", newPoint, position);
-        }
-        static public void CreateSegment(MouseButtonEventArgs e, Canvas name)
-        {
-
-            if (setPoint)
-            {
-                point1 = CreatePoint(e, name);
-                figures.Add(point1);
-                setPoint = false;
-            }
-            else
-            {
-                point2 = CreatePoint(e, name);
-
-                figures.Add(point2);
-                var newLine = new Line();
-                newLine.Stroke = System.Windows.Media.Brushes.Gray;
-                newLine.X1 = point1.Position.X;
-                newLine.X2 = point2.Position.X;
-                newLine.Y1 = point1.Position.Y;
-                newLine.Y2 = point2.Position.Y;
-
-
-                newLine.HorizontalAlignment = HorizontalAlignment.Left;
-                newLine.VerticalAlignment = VerticalAlignment.Center;
-                newLine.StrokeThickness = 3;
-                figures.Add(new GraphSegment("someSegment", "Segment", newLine, newLine));
-                setPoint = true;
-            }
-
+            Graph.Children.Clear();
+            DrawAxes(Brushes.Black, 2);
+            DrawGrid(Brushes.Gray, 1);
+            //DrawEveryFigure();
         }
 
-        private void DrawEveryFigure()
-        {
-          
-            foreach (var f in figures)
-            {
-                f.UpdatePosition(offsetX, offsetY);
-                Graph.Children.Add(f.Element);
-            }
+        //static public GraphPoint CreatePoint(MouseButtonEventArgs e, Canvas g)
+        //{
+        //    Ellipse newPoint = new Ellipse();
+        //    SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+
+        //    mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
+        //    newPoint.Fill = mySolidColorBrush;
+        //    newPoint.StrokeThickness = 1;
+        //    newPoint.Stroke = Brushes.Black;
+        //    newPoint.Width = pointDiameter;
+        //    newPoint.Height = pointDiameter;
+        //    Point position = e.GetPosition(g);
+
+        //    offsetX = 0;
+        //    offsetY = 0;
+
+        //    return new GraphPoint("some point", "Point", newPoint, position);
+        //}
+        //static public void CreateSegment(MouseButtonEventArgs e, Canvas name)
+        //{
+
+        //    if (setPoint)
+        //    {
+        //        point1 = CreatePoint(e, name);
+        //        figures.Add(point1);
+        //        setPoint = false;
+        //    }
+        //    else
+        //    {
+        //        point2 = CreatePoint(e, name);
+
+        //        figures.Add(point2);
+        //        var newLine = new Line();
+        //        newLine.Stroke = System.Windows.Media.Brushes.Gray;
+        //        newLine.X1 = point1.Position.X;
+        //        newLine.X2 = point2.Position.X;
+        //        newLine.Y1 = point1.Position.Y;
+        //        newLine.Y2 = point2.Position.Y;
+
+
+        //        newLine.HorizontalAlignment = HorizontalAlignment.Left;
+        //        newLine.VerticalAlignment = VerticalAlignment.Center;
+        //        newLine.StrokeThickness = 3;
+        //        figures.Add(new GraphSegment("someSegment", "Segment", newLine, newLine));
+        //        setPoint = true;
+        //    }
+
+        //}
+
+        //private void DrawEveryFigure()
+        //{
+        //  //
+        //    foreach (var f in figures)
+        //    {
+        //        f.UpdatePosition(offsetX, offsetY);
+        //        Graph.Children.Add(f.Element);
+        //    }
                 
-        }
+        //}
 
         //public void RemoveFigure(string name)
         //{

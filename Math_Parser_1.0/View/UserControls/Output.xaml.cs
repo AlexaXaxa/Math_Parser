@@ -18,18 +18,24 @@ namespace Math_Parser_1._0.View.UserControls
     /// <summary>
     /// Interaction logic for OutputTextBox.xaml
     /// </summary>
-    public partial class OutputTextBox : UserControl
+    public partial class Output : UserControl
     {
        
-        public OutputTextBox(string text)
+       public string Text
         {
-            InitializeComponent();
-            SetText(text);
+            get { return tblPlaceholder.Text; }
+            set { tblPlaceholder.Text = value; }
         }
 
-        public void SetText(string text)
+        public Output(string text)
         {
-            tblPlaceholder.Text = text;
+            InitializeComponent();
+            Text = text;
+            
         }
+
+        
+
+       
     }
 }

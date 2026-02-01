@@ -33,6 +33,9 @@ using static System.Net.Mime.MediaTypeNames;
                                     Надо назначать тип данных который там лежит. 
 
 
+---------------
+Сначала элементарное x= y=
+потом cas, то есть алгебра, Solve,  List<Arrow> solutions = system.Solve(x, y);
  */
 
 namespace Math_Parser_1._0
@@ -71,13 +74,11 @@ namespace Math_Parser_1._0
 
             AddIOPair(InputMode.Math);
             Rows[1].Input.Text = "3+6*2";
-            Rows[1].Output.Text = Parser.Parse(Rows[1].Input.Text).Eval(ctx).ToString();
             Rows[1].Input.txtInput.Focus();
 
         }
         public void AddIOPair(InputMode mode)
         {
-           
             var pair = new IOPair(); //create a new instanse of IOPair
             
             var grid = new Grid();
@@ -172,12 +173,22 @@ namespace Math_Parser_1._0
 
             //если будет текс только то надо парсеру выдавать ""
             //если будет пусто то ""
+            Node totalNode;
 
-          
-            input.Owner.Output.Text = Parser.Parse(input.Text).Eval(ctx).ToString();
-
-            //перерисовать граф
-            graph.Redraw();
+            try
+            {
+                totalNode = Parser.Parse(input.Text);
+                input.Owner.Output.Text = totalNode.Eval(ctx).ToString();
+                //перерисовать граф
+                graph.Redraw();
+            }
+            catch (Exception e)
+            {
+                input.Owner.Output.Text = $"{e.Message}";
+                Console.WriteLine(e.Message);
+                
+            }
+           
         }
   
 

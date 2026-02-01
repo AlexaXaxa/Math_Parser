@@ -12,7 +12,19 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="tblPlaceholder" Grid.Column="1" Text="" FontSize="17" FontWeight="Light" Margin="7, 0, 0, 0" VerticalAlignment="Center" Foreground="DarkGray"/>
+        <TextBox x:Name="tblPlaceholder" 
+                 Grid.Column="1" 
+                 Margin="7, 0, 0, 0" 
+                 VerticalAlignment="Center" 
+                 
+                 Text="" 
+                 
+                 IsReadOnly="True"
+                
+                 
+                 BorderThickness="0" 
+                 Background="Transparent" 
+                 Foreground="DarkGray"  FontSize="17" FontWeight="Light"/>
 
     </Grid>
 </UserControl>

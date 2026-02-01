@@ -14,7 +14,7 @@
 
         <Button x:Name="btnPlus" FontSize="30" VerticalContentAlignment="Center" Content="+" Padding="0,0,0,10" Click="Plus_Click">
             <Button.ContextMenu>
-                <ContextMenu Name="cm">
+                <ContextMenu>
                     <MenuItem Header="Expression" Click="Expression_Click" />
                     <MenuItem Header="Text" Click="Text_Click"/>
                     <MenuItem Header="Image(!)" Click="Image_Click"/>
@@ -35,6 +35,14 @@
 
         <TextBlock x:Name="tblPlaceholder" Grid.Column="1" Text="Inmatningsfält..." FontSize="17" FontWeight="Light" Margin="7, 0, 0, 0" VerticalAlignment="Center" Foreground="DarkGray"/>
 
-        <Button Grid.Column="1" Panel.ZIndex =" 1" x:Name="btnMenu" Content=":" Background="Transparent" HorizontalAlignment="Right" FontSize="25" Width="50" Click="Radera_Click"/>
+        <Button Grid.Column="1" Panel.ZIndex =" 1" x:Name="Radera" Background="Transparent" HorizontalAlignment="Right" FontSize="25" Width="50" Click="Radera_Click">
+            <!--<Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Radera" Click="Radera_Click" />
+                    <MenuItem Header="Duplicate output" Click="Settings"/>
+                </ContextMenu>
+            </Button.ContextMenu>-->
+            <Image Source="pack://application:,,,/Assets/delete.png" Opacity="0.4"/>
+        </Button>
     </Grid>
 </UserControl>

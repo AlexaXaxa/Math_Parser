@@ -54,6 +54,25 @@ namespace Math_Parser_1._0.View.UserControls
         {
             DeleteRequested?.Invoke(Owner); 
         }
+
+        private void DuplicateOutput_Click(object sender, RoutedEventArgs e)
+        {
+            //dublicate output to the new input window
+            EnterPressed?.Invoke(this, tblPlaceholder.Text, InputMode.Text);
+        }
+
+        void btnMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            // к какому элементу «приклеено» меню
+            button.ContextMenu.PlacementTarget = button;
+            //где именно относительно кнопки
+            button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            button.ContextMenu.IsOpen = true;
+
+        }
+
+
         void Plus_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;

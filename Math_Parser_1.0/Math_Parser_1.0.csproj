@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Assets\cirkel.png" />
     <None Remove="Assets\cursor.png" />
+    <None Remove="Assets\delete.png" />
     <None Remove="Assets\drag_cursor.cur" />
     <None Remove="Assets\elips.png" />
     <None Remove="Assets\flytta.png" />
@@ -49,6 +50,9 @@
     <Content Include="Assets\flytta.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\delete.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\geogebra_ico.ico" />
     <Content Include="Assets\glidare.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

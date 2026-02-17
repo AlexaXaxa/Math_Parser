@@ -24,6 +24,7 @@
 
             <TextBlock Text="Shortcuts" FontWeight="Bold"/>
             <TextBlock Text="H or h to open this help window"/>
+            <TextBlock Text="M or m to open menu"/>
 
 
         </StackPanel>

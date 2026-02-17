@@ -12,16 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
+
 /*
-
-Единственное что мы можем делать когда прикасаемся к графу это двигать его
- 
-Есть один способ добавить объект на граф
-С помощью текстинпута
-
-Перерисовка:
-    когда нажимается энтер с фокусом на текстбоксе
-    когда двигается экран.
 
 
 Инпут:
@@ -107,11 +99,9 @@ implicit equation (
 
 
 
-Сначала элементарное x= y=
 потом cas, то есть алгебра, Solve,  List<Arrow> solutions = system.Solve(x, y);
  
 ---------------
-Сделать x = expression
 удаление текстбокса ведет к удалению информации о фигурах 
 ---------------
 */
@@ -128,8 +118,28 @@ namespace Math_Parser_1._0
 
         public MainWindow()
         {
+            //do not use floats
+            Decimal t = 0;
+            Decimal o = 0.1M;
+            for (int i = 0; i<10; i++)
+            {
+                t += o;
+
+            }
+            Console.WriteLine(t);
+
+            double t2 = 0;
+            double o2 = 0.1;
+            for (int i = 0; i < 10; i++)
+            {
+                t2 += o2;
+
+            }
+            Console.WriteLine(t2);
+
+
             Initialize();
-            KeyUp += keyUp;
+            KeyUp += MainWindowKey;
         }
         public void Initialize()
         {
@@ -235,11 +245,6 @@ namespace Math_Parser_1._0
 
 
             /*
-             
-             class Command { }
-class XLineCommand : Command { public double X; }
-class YLineCommand : Command { public double Y; }
-class FunctionCommand : Command { public string Expression; }
 
 MainWindow не знает как рисовать. Он только решает "что рисовать".
 
@@ -248,10 +253,46 @@ GraphControl не знает, кто ввёл команду. Он просто 
 
             Node answerNode;
             double answerNumber;
-
+            string str = input.Text;
             try
             {
+                /*
+                 //тогда это функция, y = f(x)
+                 if(str.Contains(y, x, =))
+                {
+                    //3y=-y+4x
+                    lhs = str.Trim(left, =) //3y
+                    rhs = str.Trim(right, =) //-y+4x
+                    
+                    
+                    ax + by + c = 0 
+                    while(lhs.Contains(x), lhs.Contains(const), !lhs.Contains(y))
+                {
 
+
+
+                 else if (y )
+                        
+                       if(lhs.Contains(x))
+                         удалить эту часть
+                         разделить/умножить/отнять/прибавить rhs на x и на коэфициент
+                       else if (lhs.Contains(константы))
+                            удалить из lhs
+                            разделить/умножить/отнять/прибавить rhs
+                        else if(rhs contains y)
+                            удалить из rhs
+                            разделить/умножить/отнять/прибавить lhs
+                       
+                        
+                 }
+
+                    by = -ax - c //все х и контанты в rhs
+                    y = (-ax - c) / b //получить коэфицент у и поделить rhs на это и убрать ее их lsh
+                    
+                }
+                 
+                 
+                 */
                 //input: x = expression : x = 5+9
                 if (input.Text.StartsWith("x="))
                 {
@@ -317,15 +358,19 @@ GraphControl не знает, кто ввёл команду. Он просто 
             }
            
         }
-  
+
 
         //____________________________BUTTONS_______________________________________________________________//
-        private void Menuwindowbtn_Click(object sender, RoutedEventArgs e)
+        void ToggleMenu()
         {
             if (menuControl.Visibility == Visibility.Visible)
                 menuControl.Visibility = Visibility.Collapsed;
             else
                 menuControl.Visibility = Visibility.Visible;
+        }
+        private void Menuwindowbtn_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleMenu();
         }
         private void Homebtn_Click(object sender, RoutedEventArgs e)
         {
@@ -334,8 +379,8 @@ GraphControl не знает, кто ввёл команду. Он просто 
             graph.Redraw(graph.figuresInfo);
         }
 
-        //--------------------------------------------------------------------//
-        private void keyUp(object sender, KeyEventArgs e)
+        //____________________________Shortcuts___________________________________//
+        private void MainWindowKey(object sender, KeyEventArgs e)
         {
             // Your handler code goes here
             if (e.Key == Key.H)
@@ -343,7 +388,12 @@ GraphControl не знает, кто ввёл команду. Он просто 
                 Help help = new();
                 help.Show();
             }
+            else if(e.Key == Key.M)
+            {
+                ToggleMenu();
+            }
         }
+        
     }
 
 }

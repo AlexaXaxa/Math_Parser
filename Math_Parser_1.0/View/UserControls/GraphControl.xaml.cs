@@ -1,11 +1,13 @@
-﻿using System.Security.Cryptography;
+﻿using Math_Parser_1._0;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml.Linq;
-using Math_Parser_1._0;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -15,24 +17,25 @@ namespace Math_Parser_1._0.View.UserControls
     public partial class GraphControl : UserControl
     {
         #region var declaration
-        public IGraphMode currentMode;
-        public static double offsetX = 0;
-        public static double offsetY = 0;
-        public static double YAxiswidthOffset;
-        private static double XAxisheightOffset;
-
-        public static List<GraphFigure> figures = new List<GraphFigure>();
-
-        public static double pointDiameter = 13;
-        public static bool setPoint = true;
-        public static GraphPoint point1 = null;
-        public static GraphPoint point2;
-
-        public event Action<string> PointCreated;
+     
+       // public static double pointDiameter = 13;
+       // public static bool setPoint = true;
 
         private Point downPoint;
         private Point uppPoint;
         public static Cursor drag_cursor = new Cursor("Assets/drag_cursor.cur");
+        public static double offsetX = 0;
+        public static double offsetY = 0;
+        public static double YAxiswidthOffset { get; set; }
+        public static double XAxisheightOffset { get; set; }
+
+        public List<GraphFigureInfo> figuresInfo { get; set; } = new();
+
+
+        Line Yaxis;
+        Line Xaxis;
+
+        int pxPerdivition = 50;
         #endregion
         public GraphControl()
         {
@@ -73,22 +76,20 @@ namespace Math_Parser_1._0.View.UserControls
             
             CalculateOffset(downPoint, uppPoint);
 
-            Redraw();
+            Redraw(figuresInfo);
         }
         public static void CalculateOffset(Point down, Point up)
         {
-
             offsetY = up.Y - down.Y;
             offsetX = up.X - down.X;
 
             XAxisheightOffset = XAxisheightOffset + offsetY;
             YAxiswidthOffset = YAxiswidthOffset + offsetX;
-
         }
 
         void DrawAxes(Brush color, int thickness)
         {
-            var Yaxis = new Line();
+            Yaxis = new Line();
             Yaxis.Stroke = color;
             Yaxis.StrokeThickness = thickness;
 
@@ -99,7 +100,7 @@ namespace Math_Parser_1._0.View.UserControls
 
             Graph.Children.Add(Yaxis);
 
-            var Xaxis = new Line();
+            Xaxis = new Line();
             Xaxis.Stroke = color;
             Xaxis.StrokeThickness = thickness;
 
@@ -115,8 +116,8 @@ namespace Math_Parser_1._0.View.UserControls
         void DrawGrid(Brush color, int thickness)
         {
             //YGrid
-            double remainder = YAxiswidthOffset % 50;
-            for (double i = remainder; i < Graph.ActualWidth; i += 50)
+            double remainder = YAxiswidthOffset % pxPerdivition;
+            for (double i = remainder; i < Graph.ActualWidth; i += pxPerdivition)
             {
                 var Yaxis = new Line();
                 Yaxis.Stroke = color;
@@ -132,8 +133,8 @@ namespace Math_Parser_1._0.View.UserControls
                     Graph.Children.Add(Yaxis);
             }
             //XGrid
-            remainder = XAxisheightOffset % 50;
-            for (double i = remainder; i < Graph.ActualHeight; i += 50)
+            remainder = XAxisheightOffset % pxPerdivition;
+            for (double i = remainder; i < Graph.ActualHeight; i += pxPerdivition)
             {
                 var Xaxis = new Line();
                 Xaxis.Stroke = color;
@@ -151,12 +152,93 @@ namespace Math_Parser_1._0.View.UserControls
             }
 
         }
-        public void Redraw()
+        public void Redraw(List<GraphFigureInfo> list)
         {
             Graph.Children.Clear();
             DrawAxes(Brushes.Black, 2);
             DrawGrid(Brushes.Gray, 1);
-            //DrawEveryFigure();
+            DrawEveryFigure(list);            
+        }
+
+        private void DrawEveryFigure(List<GraphFigureInfo> list)
+        {
+            foreach (var item in list)
+            {
+                if (item is XLineInfo x)
+                {
+                    Line line = new();
+
+                    line.X1 = XMathToScreen(x.X);
+                    line.X2 = XMathToScreen(x.X);                    
+
+                    line.Y1 = 0;
+                    line.Y2 = Graph.ActualHeight;
+                    line.Stroke = x.Color;
+                    line.StrokeThickness = 3;
+                    Graph.Children.Add(line);
+                }
+                else if (item is YLineInfo y)
+                {
+                    Line line = new();
+
+                    line.Y1 = YMathToScreen(y.Y);
+                    line.Y2 = YMathToScreen(y.Y);
+
+                    line.X1 = 0;
+                    line.X2 = Graph.ActualWidth;
+                    line.Stroke = y.Color;
+                    line.StrokeThickness = 3;
+                    Graph.Children.Add(line);
+
+                }
+                else if(item is FunctionInfo f)
+                {
+                    double stepScreen = 1;
+                    double xScreen = 0;
+                    double xEndScreen = Graph.ActualWidth;
+
+                    while (xScreen < xEndScreen)
+                    {
+                        //что бы вычислить значение у
+                        double xmath = XScreenToMath(xScreen);
+                        //вычисляем значение у
+                        double ymath = f.Function(xmath);
+                        //экранные координаты у
+                        double yScreen = YMathToScreen(ymath);
+
+                        Ellipse ellipse = new();
+                        ellipse.Width = 5;
+                        ellipse.Height = 5;
+                        ellipse.Fill = Brushes.Blue;
+                        Canvas.SetLeft(ellipse, xScreen-5);
+                        Canvas.SetTop(ellipse, yScreen+5);
+                        Graph.Children.Add(ellipse);
+
+
+                        xScreen += stepScreen;
+                    }
+                }
+
+            }
+        }
+
+        double XMathToScreen(double math)
+        {
+            return Yaxis.X1 + pxPerdivition * math;
+        }
+        double YMathToScreen(double math)
+        {
+            return Xaxis.Y1 - pxPerdivition * math;
+        }
+
+        double XScreenToMath(double screen)
+        {
+            return (screen - YAxiswidthOffset) / pxPerdivition;
+        }
+
+        double YScreenToMath(double screen)
+        {
+            return (screen - XAxisheightOffset) / pxPerdivition;
         }
 
         //static public GraphPoint CreatePoint(MouseButtonEventArgs e, Canvas g)
@@ -216,7 +298,7 @@ namespace Math_Parser_1._0.View.UserControls
         //        f.UpdatePosition(offsetX, offsetY);
         //        Graph.Children.Add(f.Element);
         //    }
-                
+
         //}
 
         //public void RemoveFigure(string name)

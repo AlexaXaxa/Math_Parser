@@ -8,21 +8,21 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Background="White" HorizontalAlignment="Right" Width="200">
-            <Button Content="Arkiv"/>
-            <Button Content="Redigera"/>
-            <Button Content="Perspektiv"/>
-            <Button Content="Visa"/>
-            <Button Content="Inställningar"/>
-            <Button Content="Verktyg"/>
-            <Button Content="Hjälp och feedback"/>
-            <Button Content="Guider"/>
-            <Button Content="Användarhandbok"/>
-            <Button Content="Hjälp"/>
-            <Button Content="Rapportera ett problem"/>
+            <Button Content="Hjälp" Click="Helpbtn"/>
+            <Button Content="Feedback"/>
             <Button Content="Om/Licens"/>
-            <Button Content="Sekretesspolicy"/>
-            <TextBlock Text="Version 6.0.902.0"/>
-            <Button Content="Aleksandra"/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content="..."/>
+            <Button Content=""/>
+            <Button Content=""/>
+            <TextBlock Text="Version 1.0"/>
+            <Button Content="..."/>
         </StackPanel>
     </Grid>
 </UserControl>

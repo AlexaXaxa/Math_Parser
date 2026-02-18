@@ -1,7 +1,8 @@
 # GeoGebraWPF
 A simple graphing calculator built in C# and WPF.
 
-<img width="1919" height="1004" alt="image" src="https://github.com/user-attachments/assets/dbf7d99d-74ea-4fdc-b2ba-533467bbfa16" />
+<img width="1917" height="1013" alt="image" src="https://github.com/user-attachments/assets/e3e58b45-9e28-43ef-90c1-a92e6f265a8b" />
+
 
 ## Features
 - Move graph
@@ -13,7 +14,7 @@ A simple graphing calculator built in C# and WPF.
   
 ## Future Features
 - Algebra
-- Plotting implicit equations like ´2y=2x´
+- Plotting implicit equations like `2y=2x`
 - Power (x^2, x^3...)
 - Zoom
   

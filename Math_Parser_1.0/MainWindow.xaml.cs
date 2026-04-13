@@ -1,5 +1,5 @@
 ﻿using Math_Parser_1._0.View.UserControls;
-using parsertut;
+
 using System;
 using System.Collections.ObjectModel;
 using System.Media;
@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
+using parsertut;
+using System.Numerics;
+using org.mariuszgromada.math.mxparser;
 
 /*
 
@@ -92,11 +95,6 @@ x = y / 3
 3x - y = 0
 
 
-left - right = 0
-
-implicit equation (
-
-
 
 
 потом cas, то есть алгебра, Solve,  List<Arrow> solutions = system.Solve(x, y);
@@ -104,6 +102,13 @@ implicit equation (
 ---------------
 удаление текстбокса ведет к удалению информации о фигурах 
 ---------------
+математика
+алгебра
+
+
+визуал
+разноцветные линии функций
+функции
 */
 
 namespace Math_Parser_1._0
@@ -118,26 +123,6 @@ namespace Math_Parser_1._0
 
         public MainWindow()
         {
-            //do not use floats
-            Decimal t = 0;
-            Decimal o = 0.1M;
-            for (int i = 0; i<10; i++)
-            {
-                t += o;
-
-            }
-            Console.WriteLine(t);
-
-            double t2 = 0;
-            double o2 = 0.1;
-            for (int i = 0; i < 10; i++)
-            {
-                t2 += o2;
-
-            }
-            Console.WriteLine(t2);
-
-
             Initialize();
             KeyUp += MainWindowKey;
         }
@@ -157,7 +142,7 @@ namespace Math_Parser_1._0
         {
            
             AddIOPair(InputMode.Text);
-            Rows[0].Input.Text = "Welcome to the GeoGebra Clone!";
+            Rows[0].Input.Text = "hi";
             Rows[0].Input.txtInput.BorderBrush = Brushes.AliceBlue;
             Rows[0].Input.btnPlus.IsEnabled = false;
 

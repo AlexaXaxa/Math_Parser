@@ -104,6 +104,7 @@ x = y / 3
 ---------------
 математика
 алгебра
+син работает с радианами а не с градусами, изменить(?)
 
 
 визуал
@@ -123,6 +124,7 @@ namespace Math_Parser_1._0
 
         public MainWindow()
         {
+            License.iConfirmNonCommercialUse("Aleksa");
             Initialize();
             KeyUp += MainWindowKey;
         }
@@ -224,64 +226,28 @@ namespace Math_Parser_1._0
         }
         void UppdateState(Input input)
         {
-            // пробежаться по вариантам типа x= y=
-            // привести ответ их к типу который может понять граф и отправить ему данные на перерисовку
-            // вывести ответ юзеру в понятном виде
-
-
-            /*
-
-MainWindow не знает как рисовать. Он только решает "что рисовать".
-
-GraphControl не знает, кто ввёл команду. Он просто рисует список команд.
-             */
-
             Node answerNode;
             double answerNumber;
             string str = input.Text;
+
+            
+         
+
+            org.mariuszgromada.math.mxparser.Expression e = new org.mariuszgromada.math.mxparser.Expression(str);
+            mXparser.consolePrintln(e.calculate());
+            input.Owner.Output.Text = e.calculate().ToString();
+
+            
             try
             {
-                /*
-                 //тогда это функция, y = f(x)
-                 if(str.Contains(y, x, =))
-                {
-                    //3y=-y+4x
-                    lhs = str.Trim(left, =) //3y
-                    rhs = str.Trim(right, =) //-y+4x
-                    
-                    
-                    ax + by + c = 0 
-                    while(lhs.Contains(x), lhs.Contains(const), !lhs.Contains(y))
-                {
-
-
-
-                 else if (y )
-                        
-                       if(lhs.Contains(x))
-                         удалить эту часть
-                         разделить/умножить/отнять/прибавить rhs на x и на коэфициент
-                       else if (lhs.Contains(константы))
-                            удалить из lhs
-                            разделить/умножить/отнять/прибавить rhs
-                        else if(rhs contains y)
-                            удалить из rhs
-                            разделить/умножить/отнять/прибавить lhs
-                       
-                        
-                 }
-
-                    by = -ax - c //все х и контанты в rhs
-                    y = (-ax - c) / b //получить коэфицент у и поделить rhs на это и убрать ее их lsh
-                    
-                }
-                 
-                 
-                 */
-                //input: x = expression : x = 5+9
                 if (input.Text.StartsWith("x="))
                 {
                     string expr = input.Text[2..];
+
+                    org.mariuszgromada.math.mxparser.Expression ee = new org.mariuszgromada.math.mxparser.Expression(expr);
+
+                    Argument x = new Argument(ee.ToString());
+
 
                     answerNode = Parser.Parse(expr);
                     answerNumber = answerNode.Eval(ctx);
@@ -341,7 +307,9 @@ GraphControl не знает, кто ввёл команду. Он просто 
                 Console.WriteLine(e.Message);
                 
             }
-           
+           */
+
+
         }
 
 

@@ -233,9 +233,9 @@ namespace Math_Parser_1._0
             
          
 
-            org.mariuszgromada.math.mxparser.Expression e = new org.mariuszgromada.math.mxparser.Expression(str);
-            mXparser.consolePrintln(e.calculate());
-            input.Owner.Output.Text = e.calculate().ToString();
+            //org.mariuszgromada.math.mxparser.Expression e = new org.mariuszgromada.math.mxparser.Expression(str);
+            //mXparser.consolePrintln(e.calculate());
+            //input.Owner.Output.Text = e.calculate().ToString();
 
             
             try
@@ -307,7 +307,7 @@ namespace Math_Parser_1._0
                 Console.WriteLine(e.Message);
                 
             }
-           */
+           
 
 
         }

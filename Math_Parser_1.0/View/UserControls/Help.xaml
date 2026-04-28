@@ -8,7 +8,10 @@
         Title="Help" Height="450" Width="800">
     <Grid>
         <StackPanel>
-           
+
+            <TextBlock Text="Rules: write 2*x, not 2x. Even if it work in some cases it doesnt work always.\nwhen writing dependent variables and renewing what variable was dependent of renew dependent variable by pressing enter in the dependent variable textbox"/>
+
+
             <TextBlock Text="Divide: /"/>
             <TextBlock Text="Multiply: *"/>
             <TextBlock Text="Add: +"/>

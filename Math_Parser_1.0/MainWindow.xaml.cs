@@ -12,9 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
-using parsertut;
-using System.Numerics;
+
 using org.mariuszgromada.math.mxparser;
+using Expression = org.mariuszgromada.math.mxparser.Expression;
 
 /*
 
@@ -54,60 +54,6 @@ using org.mariuszgromada.math.mxparser;
 
         //}
 
-
-Argument x = new Argument("x = 2");
-Constant a = new Constant("a = sin(10)");
-Function f = new Function("f(t) = t^2");
-Expression e = new Expression("2*x + a - f(10)", x, a, f);
-double v = e.calculate();
-
-
-3x^2 + 4*x - 5
-
-
-
-
-
-Input
- ↓
-Parser
- ↓
-AST
- ↓
-Analyzer (что это?)
- ↓
-Figure (Line / Curve / Point)
- ↓
-Renderer
-
-уравнение (=)
-
-точка (^[A-Z]\w*\s*\(.*\)$)
-
-число (else)
-
-потом решить как рисовать
-
-
-
-y = 3x
-x = y / 3
-3x - y = 0
-
-
-
-
-потом cas, то есть алгебра, Solve,  List<Arrow> solutions = system.Solve(x, y);
- 
----------------
-удаление текстбокса ведет к удалению информации о фигурах 
----------------
-математика
-алгебра
-син работает с радианами а не с градусами, изменить(?)
-
-
-визуал
 разноцветные линии функций
 функции
 */
@@ -119,8 +65,11 @@ namespace Math_Parser_1._0
         //i need rows to operate text in textboxes. Set, get text.
         public ObservableCollection<IOPair> Rows { get; set; } = [];
 
-        public Context ctx = new Context();
+        
         private MediaPlayer mediaPlayer = new MediaPlayer();
+
+        public Dictionary<string, Argument> arguments = [];
+        public Dictionary<string, Function> functions = [];
 
         public MainWindow()
         {
@@ -224,90 +173,146 @@ namespace Math_Parser_1._0
             else if (input.Mode == InputMode.Math)
                 UppdateState(sender as Input);
         }
+
+        //может только назначать переменные
+        //может сохранять переменные
+        //может выводить переменные по имени
+        //может решать выражения без переменных
+        //может решать выражения с переменными
+        //может хранить зависимые переменные
+        //может хранить функции типа f(x)=x 
+        //может вызывать функиции f(2)
+
+        //переменная в функции
         void UppdateState(Input input)
         {
-            Node answerNode;
-            double answerNumber;
             string str = input.Text;
 
-            
-         
 
-            //org.mariuszgromada.math.mxparser.Expression e = new org.mariuszgromada.math.mxparser.Expression(str);
-            //mXparser.consolePrintln(e.calculate());
-            //input.Owner.Output.Text = e.calculate().ToString();
-
-            
-            try
+            if (!str.Contains("="))
             {
-                if (input.Text.StartsWith("x="))
+                //variable output
+                if (arguments.ContainsKey(str))
                 {
-                    string expr = input.Text[2..];
-
-                    org.mariuszgromada.math.mxparser.Expression ee = new org.mariuszgromada.math.mxparser.Expression(expr);
-
-                    Argument x = new Argument(ee.ToString());
-
-
-                    answerNode = Parser.Parse(expr);
-                    answerNumber = answerNode.Eval(ctx);
-
-                    //занести линию в память
-                    graph.figuresInfo.Add(new XLineInfo(answerNumber));
-
-                    //нарисовать из памяти все линии
-                    graph.Redraw(graph.figuresInfo);
-
-                    //вывести ответ юзеру
-                    input.Owner.Output.Text = "x = " + answerNumber.ToString();
-                    
-                   
+                    input.Owner.Output.Text =
+                        arguments[str].getArgumentValue().ToString();
+                    return;
                 }
-
-                //input: y = expresion: y = 2+6 OR function y=x
-                else if (input.Text.StartsWith("y="))
-                {
-                    //after y=
-                    string expr = input.Text[2..];
-
-                    //function
-                    if (input.Text.Contains("x"))
-                    {
-                        //занести в память
-                        graph.figuresInfo.Add(new FunctionInfo(ctx, expr));
-                    }
-                    //Yline
-                    else
-                    {
-                        answerNode = Parser.Parse(expr);
-                        answerNumber = answerNode.Eval(ctx);
-
-                        //занести линию в память
-                        graph.figuresInfo.Add(new YLineInfo(answerNumber));
-
-                        //вывести ответ юзеру
-                        input.Owner.Output.Text = "y = " + answerNumber.ToString();
-                    }      
-
-                }
-                //expression : 5+4
-                else
-                {
-                    answerNode = Parser.Parse(input.Text);
-                    //обновить аутпут
-                    input.Owner.Output.Text = answerNode.Eval(ctx).ToString();
-                }
-
-                //нарисовать из памяти все линии
-                graph.Redraw(graph.figuresInfo);
-            }
-            catch (Exception e)
-            {
-                input.Owner.Output.Text = $"{e.Message}";
-                Console.WriteLine(e.Message);
                 
+                //expression
+                Expression e = new(str, arguments.Values.Cast<PrimitiveElement>()
+        .Concat(functions.Values)
+        .ToArray());
+                double answer = e.calculate();
+                input.Owner.Output.Text = answer.ToString();
+                return;
             }
-           
+
+            //new variable assignmen
+            else
+            {
+                //function
+                if (str.Contains('('))
+                {
+
+                    Function f = new(str);
+
+                    string fname = f.getFunctionName();
+
+                    functions[fname] = f;
+
+                    input.Owner.Output.Text = "function defined";
+
+                    graph.Redraw(graph.figuresInfo);
+                    return;
+                }
+                //variable
+                Argument newArg = new Argument(str, arguments.Values.Cast<PrimitiveElement>()
+        .Concat(functions.Values)
+        .ToArray());
+                string name = newArg.getArgumentName();
+
+                arguments[name] = newArg; //old object rewrites, new creates.
+
+                input.Owner.Output.Text = name + " = " + newArg.getArgumentValue();
+
+                graph.Redraw(graph.figuresInfo);
+                    
+            }
+            
+            
+
+
+            //try
+            //{
+
+            //    if (input.Text.StartsWith("x="))
+            //    {
+            //        string expr = input.Text[2..];
+
+            //        org.mariuszgromada.math.mxparser.Expression ee = new org.mariuszgromada.math.mxparser.Expression(expr);
+
+            //        Argument x = new Argument(ee.ToString());
+
+
+
+
+            //        //занести линию в память
+            //        //graph.figuresInfo.Add(new XLineInfo(4));
+
+            //        //нарисовать из памяти все линии
+            //        graph.Redraw(graph.figuresInfo);
+
+            //        //вывести ответ юзеру
+            //        //input.Owner.Output.Text = "x = " + answerNumber.ToString();
+
+
+            //    }
+
+            //    //input: y = expresion: y = 2+6 OR function y=x
+            //    else if (input.Text.StartsWith("y="))
+            //    {
+            //        //after y=
+            //        string expr = input.Text[2..];
+
+            //        //function
+            //        if (input.Text.Contains("x"))
+            //        {
+            //            //занести в память
+            //            //graph.figuresInfo.Add(new FunctionInfo(ctx, expr));
+            //        }
+            //        //Yline
+            //        else
+            //        {
+            //            //answerNode = Parser.Parse(expr);
+            //            //answerNumber = answerNode.Eval(ctx);
+
+            //            //занести линию в память
+            //            //graph.figuresInfo.Add(new YLineInfo(answerNumber));
+
+            //            //вывести ответ юзеру
+            //            //input.Owner.Output.Text = "y = " + answerNumber.ToString();
+            //        }      
+
+            //    }
+            //    //expression : 5+4
+            //    else
+            //    {
+            //        //answerNode = Parser.Parse(input.Text);
+            //        //обновить аутпут
+            //        //input.Owner.Output.Text = answerNode.Eval(ctx).ToString();
+            //    }
+
+            //    //нарисовать из памяти все линии
+            //    graph.Redraw(graph.figuresInfo);
+            //}
+            //catch (Exception e)
+            //{
+            //    input.Owner.Output.Text = $"{e.Message}";
+            //    Console.WriteLine(e.Message);
+
+            //}
+
 
 
         }

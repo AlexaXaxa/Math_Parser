@@ -208,14 +208,14 @@ namespace Math_Parser_1._0
                 return;
             }
 
-            //new variable assignmen
+            //new assignmen
             else
             {
                 //function
                 if (str.Contains('('))
                 {
 
-                    Function f = new(str);
+                    Function f = new(str);  
 
                     string fname = f.getFunctionName();
 
@@ -227,9 +227,7 @@ namespace Math_Parser_1._0
                     return;
                 }
                 //variable
-                Argument newArg = new Argument(str, arguments.Values.Cast<PrimitiveElement>()
-        .Concat(functions.Values)
-        .ToArray());
+                Argument newArg = new Argument(str, arguments.Values.ToArray());
                 string name = newArg.getArgumentName();
 
                 arguments[name] = newArg; //old object rewrites, new creates.

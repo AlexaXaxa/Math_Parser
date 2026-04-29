@@ -3,17 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Math_Parser_1._0
 {
     public class AudioService
     {
 
+        public AudioService()
+        {
+            _player.MediaEnded += OnMediaEnded;
+        }
+
         private MediaPlayer _player = new();
 
         public double TotalSeconds;
+        private DispatcherTimer _timer = new DispatcherTimer();
+        private bool _isLooping = true; // можно потом переключать кнопкой
 
+        private void OnMediaEnded(object sender, EventArgs e)
+        {
+            if (_isLooping)
+            {
+                _player.Position = TimeSpan.Zero;
+                _player.Play();
+            }
+        }
         public bool HasTimeSpan()
         {
             if (_player.NaturalDuration.HasTimeSpan)
@@ -23,14 +40,20 @@ namespace Math_Parser_1._0
         }
         public void Load(string path)
         {
+          
+
             _player.Open(new Uri(path, UriKind.Relative));
             _player.Play();
             _player.MediaOpened += (s, e) =>
             {
                 TotalSeconds = _player.NaturalDuration.TimeSpan.TotalSeconds;
             };
-            
+
+         
+
         }
+
+ 
 
         public void Play() => _player.Play();
         public void Pause() => _player.Pause();
@@ -78,6 +101,10 @@ namespace Math_Parser_1._0
         public void SetPos( double sec)
         {
             _player.Position = TimeSpan.FromSeconds(sec);
+        }
+        public TimeSpan GetPos()
+        {
+            return _player.Position;
         }
     }
 }

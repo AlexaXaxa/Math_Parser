@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -10,12 +11,29 @@ namespace Math_Parser_1._0.View.UserControls
     public partial class CustomMenu : UserControl
     {
         public AudioService Audio { get; set; }
-        private bool _isDragging = false;
-        public CustomMenu()
+        //private bool _isDragging = false;
+        DispatcherTimer timer = new DispatcherTimer();
+
+        public CustomMenu() 
         {
             InitializeComponent();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (Audio == null) return;
 
+            double duration = Audio.TotalSeconds;
+            TimeSpan position = Audio.GetPos();
+
+            if (duration == 0) return;
+
+            double percent = (position.TotalSeconds / duration) * 100;
+
+            Slider.Value = percent;
+        }
         private void Helpbtn(object sender, System.Windows.RoutedEventArgs e)
         {
             //shortcut?

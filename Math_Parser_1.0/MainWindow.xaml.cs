@@ -93,7 +93,7 @@ Renderer
 
 
 -----ЦЕЛЬ----------
-удаление текстбокса ведет к удалению информации о фигурах 
+слайдер
 ---------------
 */
 
@@ -105,23 +105,38 @@ namespace Math_Parser_1._0
         public ObservableCollection<IOPair> Rows { get; set; } = [];
 
         public Context ctx = new Context();
-        private MediaPlayer mediaPlayer = new MediaPlayer();
+
+        AudioService player = new();
+
+
+
 
         public MainWindow()
         {
             
             Initialize();
             KeyUp += MainWindowKey;
+
+
+            //player.MediaEnded += (s, e) =>
+            //{
+            //    mediaPlayer.Position = TimeSpan.Zero;
+            //    mediaPlayer.Play();
+            //};
+
         }
         public void Initialize()
         {
             InitializeComponent();
+            
+            
+
             Title = "Geogebra Clone";
             Icon = new BitmapImage(new Uri("C:\\Users\\06aleden_edu.uppland\\Source\\Repos\\Math_Parser_1.0\\Math_Parser_1.0\\Assets\\geogebra_ico.ico"));
             WindowState = WindowState.Maximized;
 
-            mediaPlayer.Open(new Uri("Audio/pocket_calculator.mp3", UriKind.Relative));
-           // mediaPlayer.Play();
+            menuControl.Audio = player;
+            player.Load("Audio/pocket_calculator.mp3");
 
             InitialInputs();
         }

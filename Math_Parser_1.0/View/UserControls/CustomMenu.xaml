@@ -23,6 +23,28 @@
             <Button Content=""/>
             <TextBlock Text="Version 1.0"/>
             <Button Content="..."/>
+            <StackPanel Margin="5">
+
+                <!-- SLIDER -->
+                <Slider x:Name="Slider" Minimum="0" Maximum="100" Value="0"  ValueChanged="Slider_ValueChanged"/>
+
+                <!-- КНОПКИ -->
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="⏪" Click="Rewind15_Click"/>
+                    <Button Grid.Column="1" Content="▶" Click="Play_Click"/>
+                    <Button Grid.Column="2" Content="⏸" Click="Pause_Click"/>
+                    <Button Grid.Column="3" Content="⏩" Click="Forward15_Click" />
+                    
+                </Grid>
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ namespace Math_Parser_1._0.View.UserControls
     /// </summary>
     public partial class CustomMenu : UserControl
     {
+        public AudioService Audio { get; set; }
         public CustomMenu()
         {
             InitializeComponent();
@@ -19,6 +20,29 @@ namespace Math_Parser_1._0.View.UserControls
 
             Help help = new();
             help.Show();
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Play();
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Pause();
+        }
+        private void Rewind15_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Rewind15();
+        }
+        private void Forward15_Click(object sender, RoutedEventArgs e)
+        {
+            Audio.Forward15();
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }

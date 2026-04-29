@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -9,6 +10,7 @@ namespace Math_Parser_1._0.View.UserControls
     public partial class CustomMenu : UserControl
     {
         public AudioService Audio { get; set; }
+        private bool _isDragging = false;
         public CustomMenu()
         {
             InitializeComponent();
@@ -42,7 +44,19 @@ namespace Math_Parser_1._0.View.UserControls
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (Audio.HasTimeSpan() == false) 
+                return;
+
+
+            double totalSec = Audio.TotalSeconds;
+
+            double newsec = (Slider.Value / 100) * totalSec;
+
+            Audio.SetPos(newsec);
+
+
 
         }
+        
     }
 }

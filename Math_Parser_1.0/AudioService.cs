@@ -12,10 +12,24 @@ namespace Math_Parser_1._0
 
         private MediaPlayer _player = new();
 
+        public double TotalSeconds;
+
+        public bool HasTimeSpan()
+        {
+            if (_player.NaturalDuration.HasTimeSpan)
+                return true;
+            else
+                return false;
+        }
         public void Load(string path)
         {
             _player.Open(new Uri(path, UriKind.Relative));
             _player.Play();
+            _player.MediaOpened += (s, e) =>
+            {
+                TotalSeconds = _player.NaturalDuration.TimeSpan.TotalSeconds;
+            };
+            
         }
 
         public void Play() => _player.Play();
@@ -61,5 +75,9 @@ namespace Math_Parser_1._0
            
         }
 
+        public void SetPos( double sec)
+        {
+            _player.Position = TimeSpan.FromSeconds(sec);
+        }
     }
 }

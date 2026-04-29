@@ -29,7 +29,7 @@ namespace Math_Parser_1._0.View.UserControls
         public static double YAxiswidthOffset { get; set; }
         public static double XAxisheightOffset { get; set; }
 
-        public List<GraphFigureInfo> figuresInfo { get; set; } = new();
+        public Dictionary<Input, GraphFigureInfo> figuresInfo { get; set; } = new(); //?? я не знаю использую ли я его правильно
 
 
         Line Yaxis;
@@ -152,17 +152,17 @@ namespace Math_Parser_1._0.View.UserControls
             }
 
         }
-        public void Redraw(List<GraphFigureInfo> list)
+        public void Redraw(Dictionary<Input, GraphFigureInfo> dict)
         {
             Graph.Children.Clear();
             DrawAxes(Brushes.Black, 2);
             DrawGrid(Brushes.Gray, 1);
-            DrawEveryFigure(list);            
+            DrawEveryFigure(dict);            
         }
 
-        private void DrawEveryFigure(List<GraphFigureInfo> list)
+        private void DrawEveryFigure(Dictionary<Input, GraphFigureInfo> dict)
         {
-            foreach (var item in list)
+            foreach (var item in dict.Values)
             {
                 if (item is XLineInfo x)
                 {
@@ -180,9 +180,10 @@ namespace Math_Parser_1._0.View.UserControls
                 else if (item is YLineInfo y)
                 {
                     Line line = new();
+                    line.SnapsToDevicePixels = true;
 
-                    line.Y1 = YMathToScreen(y.Y);
-                    line.Y2 = YMathToScreen(y.Y);
+                    line.Y1 = (YMathToScreen(y.Y));
+                    line.Y2 = (YMathToScreen(y.Y));
 
                     line.X1 = 0;
                     line.X2 = Graph.ActualWidth;
@@ -207,11 +208,11 @@ namespace Math_Parser_1._0.View.UserControls
                         double yScreen = YMathToScreen(ymath);
 
                         Ellipse ellipse = new();
-                        ellipse.Width = 5;
-                        ellipse.Height = 5;
+                        ellipse.Width = 3;
+                        ellipse.Height = 3;
                         ellipse.Fill = Brushes.Blue;
-                        Canvas.SetLeft(ellipse, xScreen-5);
-                        Canvas.SetTop(ellipse, yScreen+5);
+                        Canvas.SetLeft(ellipse, xScreen-3);
+                        Canvas.SetTop(ellipse, yScreen+3);
                         Graph.Children.Add(ellipse);
 
 

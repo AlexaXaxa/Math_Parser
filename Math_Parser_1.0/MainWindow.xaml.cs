@@ -14,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 using parsertut;
 using System.Numerics;
-using org.mariuszgromada.math.mxparser;
+
 
 /*
 
@@ -55,15 +55,6 @@ using org.mariuszgromada.math.mxparser;
         //}
 
 
-Argument x = new Argument("x = 2");
-Constant a = new Constant("a = sin(10)");
-Function f = new Function("f(t) = t^2");
-Expression e = new Expression("2*x + a - f(10)", x, a, f);
-double v = e.calculate();
-
-
-3x^2 + 4*x - 5
-
 
 
 
@@ -90,26 +81,20 @@ Renderer
 
 
 
-y = 3x
-x = y / 3
-3x - y = 0
 
 
-
-
-потом cas, то есть алгебра, Solve,  List<Arrow> solutions = system.Solve(x, y);
- 
----------------
-удаление текстбокса ведет к удалению информации о фигурах 
----------------
-математика
-алгебра
 син работает с радианами а не с градусами, изменить(?)
 
 
 визуал
 разноцветные линии функций
 функции
+
+
+
+-----ЦЕЛЬ----------
+удаление текстбокса ведет к удалению информации о фигурах 
+---------------
 */
 
 namespace Math_Parser_1._0
@@ -124,7 +109,7 @@ namespace Math_Parser_1._0
 
         public MainWindow()
         {
-            License.iConfirmNonCommercialUse("Aleksa");
+            
             Initialize();
             KeyUp += MainWindowKey;
         }
@@ -183,9 +168,16 @@ namespace Math_Parser_1._0
         {
             if (Rows.Count > 1)
             {
-                //graph.figuresInfo.Remove()
+                //pair.Input.IsBeingDeleted = true;
+
+                pair.Input.Text = "";
+
+                //graph.figuresInfo.Remove(pair.Input);
+            
+
                 //inputfields is visual
                 InputFields.Children.Remove(pair.Container); //jag behöver att ha grid, som innehåller InputRow
+                
                 //rows is logical
                 Rows.Remove(pair);
 
@@ -226,34 +218,33 @@ namespace Math_Parser_1._0
         }
         void UppdateState(Input input)
         {
+
+            //if (input.IsBeingDeleted)
+            //{
+            //    return;
+            //}
+
+
             Node answerNode;
             double answerNumber;
             string str = input.Text;
 
-            
-         
+            //удалить фигуру которая была в этом графике раньше
+            graph.figuresInfo.Remove(input);
 
-            //org.mariuszgromada.math.mxparser.Expression e = new org.mariuszgromada.math.mxparser.Expression(str);
-            //mXparser.consolePrintln(e.calculate());
-            //input.Owner.Output.Text = e.calculate().ToString();
 
-            
             try
             {
                 if (input.Text.StartsWith("x="))
                 {
                     string expr = input.Text[2..];
 
-                    org.mariuszgromada.math.mxparser.Expression ee = new org.mariuszgromada.math.mxparser.Expression(expr);
-
-                    Argument x = new Argument(ee.ToString());
-
 
                     answerNode = Parser.Parse(expr);
                     answerNumber = answerNode.Eval(ctx);
 
                     //занести линию в память
-                    graph.figuresInfo.Add(new XLineInfo(answerNumber));
+                    graph.figuresInfo[input] = new XLineInfo(answerNumber);
 
                     //нарисовать из памяти все линии
                     graph.Redraw(graph.figuresInfo);
@@ -274,7 +265,8 @@ namespace Math_Parser_1._0
                     if (input.Text.Contains("x"))
                     {
                         //занести в память
-                        graph.figuresInfo.Add(new FunctionInfo(ctx, expr));
+                        
+                        graph.figuresInfo[input] = new FunctionInfo(ctx, expr);
                     }
                     //Yline
                     else
@@ -283,7 +275,8 @@ namespace Math_Parser_1._0
                         answerNumber = answerNode.Eval(ctx);
 
                         //занести линию в память
-                        graph.figuresInfo.Add(new YLineInfo(answerNumber));
+                        graph.figuresInfo[input] = new YLineInfo(answerNumber);
+                        
 
                         //вывести ответ юзеру
                         input.Owner.Output.Text = "y = " + answerNumber.ToString();

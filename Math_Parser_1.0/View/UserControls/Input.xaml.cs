@@ -15,7 +15,7 @@ namespace Math_Parser_1._0.View.UserControls
 
         public event Action<Input, string, InputMode> EnterPressed;
 
-     
+        //public bool IsBeingDeleted { get; set; } = false;
         public IOPair Owner { get; set; }
      
         public InputMode Mode { get; set; }

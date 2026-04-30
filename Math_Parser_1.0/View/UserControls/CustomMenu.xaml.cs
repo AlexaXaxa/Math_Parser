@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Math_Parser_1._0.View.UserControls
 {
@@ -11,7 +12,6 @@ namespace Math_Parser_1._0.View.UserControls
     public partial class CustomMenu : UserControl
     {
         public AudioService Audio { get; set; }
-        //private bool _isDragging = false;
         DispatcherTimer timer = new DispatcherTimer();
 
         public CustomMenu() 
@@ -72,9 +72,46 @@ namespace Math_Parser_1._0.View.UserControls
 
             Audio.SetPos(newsec);
 
+        }
 
+        private void Feedback_Click(object sender, RoutedEventArgs e)
+        {
+            string email = "workemail@outlook.com";
+            string subject = "Feedback";
+            string body = "Your message here...";
+
+            string mailto = $"mailto:{email}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(mailto)
+                {
+                    UseShellExecute = true
+                });
+            }
+            catch 
+            {
+                Clipboard.SetText(email);
+                MessageBox.Show(
+                    "We couldn't open your email app.\nEmail copied to clipboard.",
+                    "Feedback",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                    );
+            }                
 
         }
-        
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            string email = "workemail@outlook.com";
+
+            Clipboard.SetText(email);
+            MessageBox.Show(
+                "Email copied to clipboard.",
+                "Feedback",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information
+                );
+        }
     }
 }

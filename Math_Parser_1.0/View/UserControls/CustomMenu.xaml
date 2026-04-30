@@ -9,9 +9,9 @@
     <Grid>
         <StackPanel Background="White" HorizontalAlignment="Right" Width="200">
             <Button Content="Hjälp" Click="Helpbtn"/>
-            <Button Content="Feedback"/>
+            <Button Content="Feedback" Click="Feedback_Click"/>
+            <Button Content="or copy feedback email to clipboard" Click="Copy_Click"/>
             <Button Content="Om/Licens"/>
-            <Button Content="..."/>
             <Button Content="..."/>
             <Button Content="..."/>
             <Button Content="..."/>

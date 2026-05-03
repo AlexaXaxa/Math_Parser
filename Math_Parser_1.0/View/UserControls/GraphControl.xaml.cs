@@ -52,10 +52,7 @@ namespace Math_Parser_1._0.View.UserControls
 
             Graph.SizeChanged += (s, e) =>
             {
-                Graph.Children.Clear();
-                DrawAxes(Brushes.Black, 2);
-                DrawGrid(Brushes.Gray, 1);
-                //DrawEveryFigure();
+                Redraw(figuresInfo);        
             };
 
             Graph.MouseDown += MouseDown;

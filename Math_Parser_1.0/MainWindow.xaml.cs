@@ -111,12 +111,7 @@ namespace Math_Parser_1._0
         AudioService player = new();
 
         public ObservableCollection<Track> Tracks { get; set; } = new();
-
-  
-
         int currentIndex = 0;
-
-
 
         public MainWindow()
         {
@@ -126,8 +121,9 @@ namespace Math_Parser_1._0
 
             menuControl.NextClicked = Next;
             menuControl.PreviousClicked = Previous;
-
+            
         }
+        
         public void Initialize()
         {
             InitializeComponent();
@@ -376,7 +372,7 @@ namespace Math_Parser_1._0
             {
                 input.Owner.Output.Text = $"{e.Message}";
                 Console.WriteLine(e.Message);
-                
+                graph.Redraw(graph.figuresInfo);
             }
            
 

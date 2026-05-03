@@ -191,30 +191,49 @@ namespace Math_Parser_1._0.View.UserControls
                 }
                 else if(item is FunctionInfo f)
                 {
+
+                    Polyline polyline = new Polyline();
+                    polyline.Stroke = f.Color;
+                    polyline.StrokeThickness = 3;
+
+                    PointCollection points = new PointCollection();
+
                     double stepScreen = 1;
-                    double xScreen = 0;
                     double xEndScreen = Graph.ActualWidth;
 
-                    while (xScreen < xEndScreen)
+                    for (double xScreen = 0; xScreen < xEndScreen; xScreen += stepScreen)
                     {
-                        //что бы вычислить значение у
                         double xmath = XScreenToMath(xScreen);
-                        //вычисляем значение у
                         double ymath = f.Function(xmath);
-                        //экранные координаты у
                         double yScreen = YMathToScreen(ymath);
 
-                        Ellipse ellipse = new();
-                        ellipse.Width = 3;
-                        ellipse.Height = 3;
-                        ellipse.Fill = f.Color;
-                        Canvas.SetLeft(ellipse, xScreen-3);
-                        Canvas.SetTop(ellipse, yScreen+3);
-                        Graph.Children.Add(ellipse);
-
-
-                        xScreen += stepScreen;
+                        points.Add(new Point(xScreen, yScreen));
                     }
+
+                    polyline.Points = points;
+                    Graph.Children.Add(polyline);
+
+
+                    //while (xScreen < xEndScreen)
+                    //{
+                    //    //что бы вычислить значение у
+                    //    double xmath = XScreenToMath(xScreen);
+                    //    //вычисляем значение у
+                    //    double ymath = f.Function(xmath);
+                    //    //экранные координаты у
+                    //    double yScreen = YMathToScreen(ymath);
+
+                    //    Ellipse ellipse = new();
+                    //    ellipse.Width = 3;
+                    //    ellipse.Height = 3;
+                    //    ellipse.Fill = f.Color;
+                    //    Canvas.SetLeft(ellipse, xScreen-3);
+                    //    Canvas.SetTop(ellipse, yScreen+3);
+                    //    Graph.Children.Add(ellipse);
+
+
+                    //    xScreen += stepScreen;
+                    //}
                 }
 
             }

@@ -6,45 +6,90 @@
              xmlns:local="clr-namespace:Math_Parser_1._0.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel Background="White" HorizontalAlignment="Right" Width="200">
-            <Button Content="Hjälp" Click="Helpbtn"/>
-            <Button Content="Feedback" Click="Feedback_Click"/>
-            <Button Content="or copy feedback email to clipboard" Click="Copy_Click"/>
-            <Button Content="Om/Licens"/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content="..."/>
-            <Button Content=""/>
-            <Button Content=""/>
-            <TextBlock Text="Version 1.0"/>
-            <Button Content="..."/>
-            <StackPanel Margin="5">
+    
+    
+        <Grid>
+        <Border BorderBrush="Black" BorderThickness="1, 0, 0,0" HorizontalAlignment="Right" Width="200">
+                <StackPanel Background="White" HorizontalAlignment="Right" Width="200">
+                    <Button Content="Om"/>
+                    <Button Content="Hjälp" Click="Helpbtn"/>
+                    <Button Content="Feedback" Click="Feedback_Click"/>
+                    <Button Content="or copy feedback email to clipboard" Click="Copy_Click" Margin="0, 0, 0, 15"/>
 
-                <!-- SLIDER -->
-                <Slider x:Name="Slider" Minimum="0" Maximum="100" Value="0"  ValueChanged="Slider_ValueChanged"/>
 
-                <!-- КНОПКИ -->
-                <Grid Margin="0,5,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Content="⏪" Click="Rewind15_Click"/>
-                    <Button Grid.Column="1" Content="▶" Click="Play_Click"/>
-                    <Button Grid.Column="2" Content="⏸" Click="Pause_Click"/>
-                    <Button Grid.Column="3" Content="⏩" Click="Forward15_Click" />
-                    
-                </Grid>
 
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+
+                    <Grid x:Name="Player">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+
+                        <StackPanel Grid.Row="0"  Margin="5">
+
+                            <!-- SLIDER -->
+                            <Slider x:Name="Slider" Minimum="0" Maximum="100" Value="0"  ValueChanged="Slider_ValueChanged"/>
+
+                            <!-- КНОПКИ -->
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Content="⏪" Click="Rewind15_Click"/>
+                                <Button Grid.Column="1" Content="▶" Click="Play_Click"/>
+                                <Button Grid.Column="2" Content="⏸" Click="Pause_Click"/>
+                                <Button Grid.Column="3" Content="⏩" Click="Forward15_Click" />
+
+                            </Grid>
+
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" x:Name="Library">
+                            <TextBlock Text="Library" HorizontalAlignment="Center" FontSize="15"/>
+                            <TextBlock Margin="0, 10, 0, 10" Text="now playing:"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Content="◀" Background="Transparent" BorderBrush="Transparent" Click="Previous_Click"/>
+                                <Image Grid.Column="1"  x:Name="CoverImage" />
+                                <Button Grid.Column="2" Content="▶" Background="Transparent" BorderBrush="Transparent" Click="Next_Click"/>
+
+                            </Grid>
+                            <ScrollViewer Margin="0, 10, 0, 0" x:Name="TrackScroll"
+          HorizontalScrollBarVisibility="Hidden"
+                    VerticalScrollBarVisibility="Disabled"
+                    >
+                                <TextBlock Text="name by author"  x:Name="TrackInfoText" HorizontalAlignment="Center"/>
+                            </ScrollViewer>
+
+                        </StackPanel>
+
+
+                        <Button Grid.Row="2" Content="or choose your file" Click="ChooseFile_Click" Margin="5, 15, 5, 5"/>
+
+
+
+
+                    </Grid>
+
+
+
+                </StackPanel>
+            </Border>
+           
+        </Grid>
+  
+   
 </UserControl>

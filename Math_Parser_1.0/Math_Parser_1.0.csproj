@@ -25,7 +25,19 @@
     <None Remove="Assets\spegla.png" />
     <None Remove="Assets\test.png" />
     <None Remove="Assets\vinkel.png" />
+    <None Remove="Audio\birdsong.mp3" />
+    <None Remove="Audio\cat_purr.mp3" />
+    <None Remove="Audio\Cover\bird.webp" />
+    <None Remove="Audio\Cover\cat_purr.webp" />
+    <None Remove="Audio\Cover\default.jpg" />
+    <None Remove="Audio\Cover\heater.jpg" />
+    <None Remove="Audio\Cover\piano.jpg" />
+    <None Remove="Audio\Cover\pocket_calculator.jpg" />
+    <None Remove="Audio\Cover\white_noise.jpg" />
+    <None Remove="Audio\heater_noise.mp3" />
+    <None Remove="Audio\piano.mp3" />
     <None Remove="Audio\pocket_calculator.mp3" />
+    <None Remove="Audio\white_noise.mp3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +52,39 @@
   <ItemGroup>
     <Content Include="Assets\cirkel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\birdsong.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\cat_purr.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\bird.webp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\cat_purr.webp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\default.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\heater.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\piano.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Cover\white_noise.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\heater_noise.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\piano.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\white_noise.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Assets\cursor.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -69,6 +114,9 @@
     <Resource Include="Assets\punkt.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Audio\Cover\pocket_calculator.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Audio\pocket_calculator.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -82,6 +130,7 @@
 
   <ItemGroup>
     <PackageReference Include="MathParser.org-mXparser" Version="6.1.0" />
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>

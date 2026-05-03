@@ -27,7 +27,7 @@
       <!--graph-->
             <UserControls:GraphControl x:Name="graph" Grid.Column="2"/>
             <Button Margin="5" Name="menubtn" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width ="40 " Height="40" Content="=" Click="Menuwindowbtn_Click" Grid.Column="2"/>
-            <Button Margin="5, 0, 0, 50" Name="Home" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="40" Content="H" Click="Homebtn_Click" Grid.Column="2"/>
+            <Button Margin="5, 0, 0, 50" Name="Homebtn" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="40" Height="40" Content="H" Click="Homebtn_Click" Grid.Column="2"/>
 
         </Grid>
       <!--menuwindow-->

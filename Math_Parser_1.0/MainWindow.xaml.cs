@@ -1,19 +1,21 @@
 ﻿using Math_Parser_1._0.View.UserControls;
-
+using parsertut;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Media;
+using System.Numerics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
-
-using parsertut;
-using System.Numerics;
 
 
 /*
@@ -93,7 +95,7 @@ Renderer
 
 
 -----ЦЕЛЬ----------
-можно выбрать музыку из "библиотеки
+
 ---------------
 */
 
@@ -108,6 +110,11 @@ namespace Math_Parser_1._0
 
         AudioService player = new();
 
+        public ObservableCollection<Track> Tracks { get; set; } = new();
+
+  
+
+        int currentIndex = 0;
 
 
 
@@ -117,28 +124,84 @@ namespace Math_Parser_1._0
             Initialize();
             KeyUp += MainWindowKey;
 
-
-            //player.MediaEnded += (s, e) =>
-            //{
-            //    mediaPlayer.Position = TimeSpan.Zero;
-            //    mediaPlayer.Play();
-            //};
+            menuControl.NextClicked = Next;
+            menuControl.PreviousClicked = Previous;
 
         }
         public void Initialize()
         {
             InitializeComponent();
-            
-            
 
             Title = "Geogebra Clone";
             Icon = new BitmapImage(new Uri("C:\\Users\\06aleden_edu.uppland\\Source\\Repos\\Math_Parser_1.0\\Math_Parser_1.0\\Assets\\geogebra_ico.ico"));
             WindowState = WindowState.Maximized;
 
             menuControl.Audio = player;
-            player.Load("Audio/pocket_calculator.mp3");
-
+            FillTracks();
+            StartPlayer();
             InitialInputs();
+        }
+
+        private void FillTracks()
+        {
+            
+            Track pocket = new("Pocket calculator", "Kraftwerk", "Audio/pocket_calculator.mp3", "Audio/Cover/pocket_calculator.jpg");
+            Track white_noise = new("White noise", "unknown", "Audio/white_noise.mp3", "Audio/Cover/white_noise.jpg", 0.1);
+            Track piano = new("Piano", "unknown", "Audio/piano.mp3", "Audio/Cover/piano.jpg");
+            Track birdsong = new("Birdsong", "unknown", "Audio/birdsong.mp3", "Audio/Cover/bird.webp");
+            Track cat_purr = new("Cat purr", "unknown", "Audio/cat_purr.mp3", "Audio/Cover/cat_purr.webp");
+            Track heater = new("Heater noise", "unknown", "Audio/heater_noise.mp3", "Audio/Cover/heater.jpg");
+
+            
+
+            Tracks.Add(pocket);
+         
+            Tracks.Add(white_noise);
+            Tracks.Add(piano);
+            Tracks.Add(birdsong);
+            Tracks.Add(cat_purr);
+            Tracks.Add(heater);
+
+        }
+        private void StartPlayer()
+        {
+            if (Tracks.Count == 0)
+            {
+                return;
+            }
+            currentIndex = 0;
+            PlayCurrent();
+        }
+        private void PlayCurrent()
+        {
+            var track = Tracks[currentIndex];
+
+            player.Load(track.Url);
+            player.SetVolume(track.Volume);
+            menuControl.SetCover(track.Cover);
+            menuControl.SetInfo(track.Title, track.Artist);
+           
+        }
+        private void Next()
+        {
+            currentIndex++;
+
+            if (currentIndex >= Tracks.Count)
+                currentIndex = 0; 
+            
+            PlayCurrent();
+        }
+        private void Previous()
+        {
+            if (Tracks.Count == 0)
+                return;
+
+            currentIndex--;
+
+            if (currentIndex < 0)
+                currentIndex = Tracks.Count - 1;
+
+            PlayCurrent();
         }
         private void InitialInputs()
         {
@@ -335,23 +398,30 @@ namespace Math_Parser_1._0
         }
         private void Homebtn_Click(object sender, RoutedEventArgs e)
         {
+            Home();
+        }
+        void Home()
+        {
             GraphControl.YAxiswidthOffset = graph.ActualWidth / 2;
             GraphControl.XAxisheightOffset = graph.ActualHeight / 2;
             graph.Redraw(graph.figuresInfo);
         }
-
         //____________________________Shortcuts___________________________________//
         private void MainWindowKey(object sender, KeyEventArgs e)
         {
             // Your handler code goes here
-            if (e.Key == Key.H)
+            if (e.Key == Key.O && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 Help help = new();
                 help.Show();
             }
-            else if(e.Key == Key.M)
+            else if(e.Key == Key.M && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 ToggleMenu();
+            }
+            else if(e.Key == Key.H && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                Home();
             }
         }
         

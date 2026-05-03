@@ -54,7 +54,7 @@
 
                         <StackPanel Grid.Row="1" x:Name="Library">
                             <TextBlock Text="Library" HorizontalAlignment="Center" FontSize="15"/>
-                            <TextBlock Margin="0, 10, 0, 10" Text="now playing:"/>
+                            <TextBlock Margin="5, 10, 0, 10" Text="now playing:"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>

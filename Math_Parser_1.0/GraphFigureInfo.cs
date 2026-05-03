@@ -12,7 +12,21 @@ namespace Math_Parser_1._0
 {
     //public List<GraphFigureInfo> figuresInfo { get; set; } = new();
     //DrawEveryFigure(figuresInfo); 
-    public abstract class GraphFigureInfo{    }
+    public abstract class GraphFigureInfo
+    {
+        public Brush Color { get; set; }
+
+        protected static Brush GenerateRandomColor()
+        {
+            Random rnd = new Random();
+            
+            byte r = (byte)rnd.Next(50, 220);
+            byte g = (byte)rnd.Next(50, 220);
+            byte b = (byte)rnd.Next(50, 220);
+
+            return new SolidColorBrush(System.Windows.Media.Color.FromRgb(r, g, b));
+        }
+    }
 
 
 
@@ -22,7 +36,7 @@ namespace Math_Parser_1._0
     {
         //вертикальная линия, нужно знать абсциссу
         public double X;
-        public Brush Color = Brushes.Blue;
+        public Brush Color = GenerateRandomColor();
         
         public XLineInfo(double x)
         {
@@ -36,7 +50,7 @@ namespace Math_Parser_1._0
     {
         //горизонтальная линия, нужна ордината
         public double Y;
-        public Brush Color = Brushes.Red;
+        public Brush Color = GenerateRandomColor();
         public YLineInfo(double y)
         {
             Y = y;
@@ -52,6 +66,7 @@ namespace Math_Parser_1._0
         Context _ctx;
         //everything after y= like x+5
         string _expr;
+        public Brush Color = GenerateRandomColor();
         public FunctionInfo(Context ctx, string expr)
         {
             _ctx = ctx;

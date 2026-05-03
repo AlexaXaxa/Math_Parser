@@ -374,8 +374,6 @@ namespace Math_Parser_1._0
                 Console.WriteLine(e.Message);
                 graph.Redraw(graph.figuresInfo);
             }
-           
-
 
         }
 

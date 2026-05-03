@@ -207,7 +207,7 @@ namespace Math_Parser_1._0.View.UserControls
                         Ellipse ellipse = new();
                         ellipse.Width = 3;
                         ellipse.Height = 3;
-                        ellipse.Fill = Brushes.Blue;
+                        ellipse.Fill = f.Color;
                         Canvas.SetLeft(ellipse, xScreen-3);
                         Canvas.SetTop(ellipse, yScreen+3);
                         Graph.Children.Add(ellipse);

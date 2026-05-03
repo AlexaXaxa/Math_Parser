@@ -13,12 +13,12 @@ A simple graphing calculator built in C# and WPF.
 - Plot in explicit form y=... like `y = x + 1` or horisontal lines like `y = 5`
 - Vertiсal lines: `x = 5`
 - Variables and calculation with them: `a = 5`,  `y=5`
+- Colorfull lines
 - Manual
 - Music player
 - Feedback
   
 ## Future Features
-- Colorfull lines
 - Zoom
 - Power (x^2, x^3...)
 

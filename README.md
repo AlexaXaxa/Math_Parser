@@ -3,6 +3,8 @@ A simple graphing calculator built in C# and WPF.
 
 <img width="1917" height="1013" alt="image" src="https://github.com/user-attachments/assets/e3e58b45-9e28-43ef-90c1-a92e6f265a8b" />
 
+<img width="959" height="506" alt="image" src="https://github.com/user-attachments/assets/fb40eaeb-07d9-4cc6-9f91-ea31246aaa00" />
+
 
 ## Features
 - Move graph
@@ -11,12 +13,18 @@ A simple graphing calculator built in C# and WPF.
 - Vertiсal lines: `x = 5`
 - Variables and calculation with them: `a = 5`,  `y=5`
 - Manual
+- Music player
+- Feedback
   
 ## Future Features
+- Colorfull lines
+- Zoom
+- Power (x^2, x^3...)
+
+## Future-Future Features :)
 - Algebra
 - Plotting implicit equations like `2y=2x`
-- Power (x^2, x^3...)
-- Zoom
+- f(5)
   
 ## How to Run
 1. Make sure you have Visual Studio 2022 installed.

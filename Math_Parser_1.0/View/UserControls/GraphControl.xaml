@@ -8,8 +8,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Canvas x:Name="Graph" ClipToBounds="True">
-            
-        </Canvas>
+        <Canvas x:Name="Graph" ClipToBounds="True" Background="Transparent" />
+
+        <Border Name="TooltipBorder" 
+            Visibility="Collapsed" 
+            Background="White" 
+            BorderBrush="Black" 
+            BorderThickness="2" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            Margin="20"
+                Padding="2"
+            IsHitTestVisible="False">
+            <TextBlock Name="TooltipText" Text="ТЕСТ" Foreground="Black" FontWeight="Bold" FontSize="15"/>
+        </Border>
     </Grid>
 </UserControl>

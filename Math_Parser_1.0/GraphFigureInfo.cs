@@ -26,6 +26,7 @@ namespace Math_Parser_1._0
 
             return new SolidColorBrush(System.Windows.Media.Color.FromRgb(r, g, b));
         }
+        
     }
 
 
@@ -83,6 +84,11 @@ namespace Math_Parser_1._0
             _ctx.DeleteVariable("x");
             // возвратить вычисления.
             return ymath;
+        }
+        public string GetExpression()
+        {
+            
+            return _expr;
         }
     }
 }

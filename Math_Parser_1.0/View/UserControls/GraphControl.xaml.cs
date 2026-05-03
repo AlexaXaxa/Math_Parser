@@ -172,6 +172,10 @@ namespace Math_Parser_1._0.View.UserControls
                     line.Y2 = Graph.ActualHeight;
                     line.Stroke = x.Color;
                     line.StrokeThickness = 3;
+                    line.Tag = x;
+                    line.MouseEnter += Line_MouseEnter;
+                   
+                    line.MouseLeave += Line_MouseLeave;
                     Graph.Children.Add(line);
                 }
                 else if (item is YLineInfo y)
@@ -186,6 +190,10 @@ namespace Math_Parser_1._0.View.UserControls
                     line.X2 = Graph.ActualWidth;
                     line.Stroke = y.Color;
                     line.StrokeThickness = 3;
+                    line.Tag = y;
+                    line.MouseEnter += Line_MouseEnter;
+                  
+                    line.MouseLeave += Line_MouseLeave;
                     Graph.Children.Add(line);
 
                 }
@@ -195,6 +203,7 @@ namespace Math_Parser_1._0.View.UserControls
                     Polyline polyline = new Polyline();
                     polyline.Stroke = f.Color;
                     polyline.StrokeThickness = 3;
+                    polyline.Tag = f    ;
 
                     PointCollection points = new PointCollection();
 
@@ -209,6 +218,10 @@ namespace Math_Parser_1._0.View.UserControls
 
                         points.Add(new Point(xScreen, yScreen));
                     }
+
+                    polyline.MouseEnter += Line_MouseEnter;
+                
+                    polyline.MouseLeave += Line_MouseLeave; 
 
                     polyline.Points = points;
                     Graph.Children.Add(polyline);
@@ -238,7 +251,40 @@ namespace Math_Parser_1._0.View.UserControls
 
             }
         }
+        private void Line_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // 1. Приводим к Shape, чтобы менять толщину (визуал)
+            var shape = sender as Shape;
 
+            // 2. Достаем ДАННЫЕ из Tag, чтобы получить выражение
+            var info = shape?.Tag as GraphFigureInfo;
+
+            if (shape != null)
+            {
+                shape.StrokeThickness += 2;
+            }
+
+            if (info != null)
+            {
+                TooltipText.Text = GetExpressionFromInfo(info);
+                TooltipBorder.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Line_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var shape = sender as Shape;
+            if (shape != null) shape.StrokeThickness -= 2;
+
+            TooltipBorder.Visibility = Visibility.Collapsed;
+        }
+        private string GetExpressionFromInfo(GraphFigureInfo info)
+        {
+            if (info is XLineInfo x) return $"x = {x.X}";
+            if (info is YLineInfo y) return $"y = {y.Y}";
+            if (info is FunctionInfo f) return $"y = {f.GetExpression()}"; 
+            return "Function";
+        }
         double XMathToScreen(double math)
         {
             return Yaxis.X1 + pxPerdivition * math;

@@ -1,10 +1,13 @@
 # GeoGebraWPF
 A simple graphing calculator built in C# and WPF.
 
+<div style="margin-bottom: 20px;">
 <img width="1917" height="1013" alt="image" src="https://github.com/user-attachments/assets/e3e58b45-9e28-43ef-90c1-a92e6f265a8b" />
+</div>
+<div>
+  <img width="959" height="506" alt="image" src="https://github.com/user-attachments/assets/fb40eaeb-07d9-4cc6-9f91-ea31246aaa00" />
 
-
-<img width="959" height="506" alt="image" src="https://github.com/user-attachments/assets/fb40eaeb-07d9-4cc6-9f91-ea31246aaa00" />
+</div>
 
 
 ## Features

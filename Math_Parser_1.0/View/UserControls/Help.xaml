@@ -18,17 +18,18 @@
 
             <StackPanel Margin="10">
                 <TextBlock Text="Funktioner" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
-                <TextBlock Text="sinus: sin(x)" Margin="0,5"/>
-                <TextBlock Text="cosinus: cos(x)" Margin="0,5"/>
-                <TextBlock Text="tangens: tan(x)" Margin="0,5"/>
+                <TextBlock Text="sinus (grader): sin(x)" Margin="0,5"/>
+                <TextBlock Text="cosinus (grader): cos(x)" Margin="0,5"/>
+                <TextBlock Text="tangens (grader): tan(x)" Margin="0,5"/>
             </StackPanel>
 
             <StackPanel Margin="10">
-                <TextBlock Text="User-Funktioner" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
+                <TextBlock Text="Annat" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
                 <TextBlock Text="Function: y=x, y=x+5, y=x+5/sin(4)" Margin="0,5"/>
                 <TextBlock Text="Expression: 5+5/4" Margin="0,5"/>
                 <TextBlock Text="Vertikal linje: x=3" Margin="0,5"/>
-                <TextBlock Text="Hirisontal linje: y=3" Margin="0,5"/>
+                <TextBlock Text="Horisontal linje: y=3" Margin="0,5"/>
+                <TextBlock Text="Variabler: a=3, a+1 => 4" Margin="0,5"/>
             </StackPanel>
 
             <StackPanel Margin="10">

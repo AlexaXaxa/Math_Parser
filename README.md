@@ -8,7 +8,7 @@ A simple graphing calculator built in C# and WPF.
 
 
 ## Features
-- Move graph
+- Zoom, pan
 - Evaluate expressions: `5+5` or `sin(4) + 5`
 - Plot in explicit form y=... like `y = x + 1` or horisontal lines like `y = 5`
 - Vertiсal lines: `x = 5`
@@ -19,7 +19,6 @@ A simple graphing calculator built in C# and WPF.
 - Feedback
   
 ## Future Features
-- Zoom
 - Power (x^2, x^3...)
 
 ## Future-Future Features :)

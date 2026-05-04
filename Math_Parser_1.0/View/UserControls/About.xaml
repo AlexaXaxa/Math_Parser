@@ -1,0 +1,50 @@
+﻿<Window x:Class="Math_Parser_1._0.View.UserControls.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Math_Parser_1._0.View.UserControls"
+        mc:Ignorable="d"
+        Title="About" Height="450" Width="800">
+
+
+    <Grid Margin="20">
+
+        <StackPanel VerticalAlignment="Center">
+
+            <TextBlock Text="GeoGebraWPF" 
+                 FontSize="28" 
+                 FontWeight="Bold" 
+                 Foreground="#005088" 
+                 HorizontalAlignment="Center" 
+                 Margin="0,0,0,10"/>
+
+            <TextBlock Text="Ett verktyg för att visualisera matematiska funktionen" 
+                 FontSize="14" 
+                 TextWrapping="Wrap" 
+                 TextAlignment="Center" 
+                 Foreground="#333" 
+                 Margin="0,0,0,20"/>
+
+            <TextBlock Text="Utvecklad som en del av en programmering-2 kurs" 
+                 FontSize="12" 
+                 FontStyle="Italic" 
+                 HorizontalAlignment="Center" />
+
+            <TextBlock Text="av Aleksandra" 
+                 FontSize="14" 
+                 FontWeight="SemiBold" 
+                 HorizontalAlignment="Center" 
+                 Margin="0,5,0,20"/>
+
+            <TextBlock HorizontalAlignment="Center" Margin="0,5,0,20" FontSize="14">
+    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/AlexaXaxa/Math_Parser">
+        GitHub
+    </Hyperlink>
+            </TextBlock>
+
+
+        </StackPanel>
+    </Grid>
+
+</Window>

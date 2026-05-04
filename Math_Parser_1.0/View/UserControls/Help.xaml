@@ -7,27 +7,40 @@
         mc:Ignorable="d"
         Title="Help" Height="450" Width="800">
     <Grid>
-        <StackPanel>
-           
-            <TextBlock Text="Divide: /"/>
-            <TextBlock Text="Multiply: *"/>
-            <TextBlock Text="Add: +"/>
-            <TextBlock Text="Substract: -"/>
-            
-            <TextBlock Text="Sinus: sin(x)"/>
-            <TextBlock Text="Cosinus: cos(x)"/>
+        <UniformGrid Columns="2" Margin="20">
+            <StackPanel Margin="10">
+                <TextBlock Text="Operationer" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
+                <TextBlock Text="Addera: +" Margin="0,5"/>
+                <TextBlock Text="Suntrahera: -" Margin="0,5"/>
+                <TextBlock Text="Dela: /" Margin="0,5"/>
+                <TextBlock Text="Multiplicera: * (använd alltid *. Skriv inte 2x, skriv 2*x)" Margin="0,5"/>
+            </StackPanel>
 
-            <TextBlock Text="Function: y=x, y=x+5, y=x+5/sin(4)"/>
-            <TextBlock Text="Expression: 5+5/4"/>
-            <TextBlock Text="Vertical line: x=3"/>
-            <TextBlock Text="Horisontal line: y=3"/>
+            <StackPanel Margin="10">
+                <TextBlock Text="Funktioner" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
+                <TextBlock Text="sinus: sin(x)" Margin="0,5"/>
+                <TextBlock Text="cosinus: cos(x)" Margin="0,5"/>
+                <TextBlock Text="tangens: tan(x)" Margin="0,5"/>
+            </StackPanel>
 
-            <TextBlock Text="Shortcuts" FontWeight="Bold"/>
-            <TextBlock Text="H or h to open this help window"/>
-            <TextBlock Text="M or m to open menu"/>
+            <StackPanel Margin="10">
+                <TextBlock Text="User-Funktioner" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
+                <TextBlock Text="Function: y=x, y=x+5, y=x+5/sin(4)" Margin="0,5"/>
+                <TextBlock Text="Expression: 5+5/4" Margin="0,5"/>
+                <TextBlock Text="Vertikal linje: x=3" Margin="0,5"/>
+                <TextBlock Text="Hirisontal linje: y=3" Margin="0,5"/>
+            </StackPanel>
 
+            <StackPanel Margin="10">
+                <TextBlock Text="Shortcuts" FontWeight="Bold" FontSize="16" Foreground="#005088"/>
 
-        </StackPanel>
+                <TextBlock Text="O + control för att öppna help förntret" Margin="0,5"/>
+                <TextBlock Text="M + control för att öppna menu fönstret" Margin="0,5"/>
+                <TextBlock Text="H + control för att centralisera vy" Margin="0,5"/>
+                <TextBlock Text="Hirisontal linje: y=3" Margin="0,5"/>
+            </StackPanel>
+        </UniformGrid>
+
         
     </Grid>
 </Window>

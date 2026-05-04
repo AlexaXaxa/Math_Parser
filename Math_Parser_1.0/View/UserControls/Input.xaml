@@ -17,7 +17,7 @@
                 <ContextMenu>
                     <MenuItem Header="Expression" Click="Expression_Click" />
                     <MenuItem Header="Text" Click="Text_Click"/>
-                    <MenuItem Header="Image(!)" Click="Image_Click"/>
+                    
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>

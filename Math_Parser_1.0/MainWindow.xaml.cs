@@ -20,79 +20,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 /*
 
-
-Инпут:
-    Только вычисления выражений 3+4
-    x = выражение + видимый график
-
-                                    когда юзер пишет A = (1+2, 3) и нажимает на энтер то парсер выдает (3, 3) в аутпут
-                                    код это обрабатывает в EnterPressed handler:
-                                    Если текст который ввел юзер начинается с заглавной буквы то это тип точка
-                                    Если Line то это тип линия 
-                                    Надо назначать тип данных который там лежит. 
-
-        //private void Tb_DeleteRequested(Row row)
-        //{
-        //    switch (row.Type)
-        //    {
-        //        case RowType.Variable:
-        //            //ctx.RemoveVariable(row.VariableName);
-        //            break;
-
-        //        case RowType.Point:
-        //            //graph.RemovePoint(row.Point.Value);
-        //            break;
-
-        //        case RowType.Expression:
-        //            // ничего
-        //            break;
-        //    }
-
-
-        //    //Row.Remove();
-
-
-        //    //GraphControl.figures.RemoveAll(f => f.Name == tb.Content);
-
-        //}
-
-
-
-
-
-
-Input
- ↓
-Parser
- ↓
-AST
- ↓
-Analyzer (что это?)
- ↓
-Figure (Line / Curve / Point)
- ↓
-Renderer
-
-уравнение (=)
-
-точка (^[A-Z]\w*\s*\(.*\)$)
-
-число (else)
-
-потом решить как рисовать
-
-
-
-
-
 син работает с радианами а не с градусами, изменить(?)
-
-
-визуал
-разноцветные линии функций
-функции
-
-
 
 -----ЦЕЛЬ----------
 
@@ -141,8 +69,9 @@ namespace Math_Parser_1._0
         private void FillTracks()
         {
             
-            Track pocket = new("Pocket calculator", "Kraftwerk", "Audio/pocket_calculator.mp3", "Audio/Cover/pocket_calculator.jpg");
             Track white_noise = new("White noise", "unknown", "Audio/white_noise.mp3", "Audio/Cover/white_noise.jpg", 0.1);
+            Track pocket = new("Pocket calculator", "Kraftwerk", "Audio/pocket_calculator.mp3", "Audio/Cover/pocket_calculator.jpg");
+
             Track piano = new("Piano", "unknown", "Audio/piano.mp3", "Audio/Cover/piano.jpg");
             Track birdsong = new("Birdsong", "unknown", "Audio/birdsong.mp3", "Audio/Cover/bird.webp");
             Track cat_purr = new("Cat purr", "unknown", "Audio/cat_purr.mp3", "Audio/Cover/cat_purr.webp");
@@ -150,9 +79,10 @@ namespace Math_Parser_1._0
 
             
 
-            Tracks.Add(pocket);
+            
          
             Tracks.Add(white_noise);
+            Tracks.Add(pocket);
             Tracks.Add(piano);
             Tracks.Add(birdsong);
             Tracks.Add(cat_purr);

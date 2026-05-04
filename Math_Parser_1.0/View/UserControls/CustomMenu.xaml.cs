@@ -48,7 +48,6 @@ namespace Math_Parser_1._0.View.UserControls
 
             TrackScroll.ScrollToHorizontalOffset(_offset);
         }
-        
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (Audio == null) return;
@@ -63,14 +62,6 @@ namespace Math_Parser_1._0.View.UserControls
             Slider.Value = percent;
             
         }
-        private void Helpbtn(object sender, System.Windows.RoutedEventArgs e)
-        {
-            //shortcut?
-
-            Help help = new();
-            help.Show();
-        }
-
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             Audio.Play();
@@ -103,6 +94,18 @@ namespace Math_Parser_1._0.View.UserControls
 
         }
 
+
+
+        private void Aboutbtn_Click(object sender, RoutedEventArgs e)
+        {
+            About about = new();
+            about.Show();
+        }
+        private void Helpbtn(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Help help = new();
+            help.Show();
+        }
         private void Feedback_Click(object sender, RoutedEventArgs e)
         {
             string email = "workemail@outlook.com";
@@ -122,7 +125,7 @@ namespace Math_Parser_1._0.View.UserControls
             {
                 Clipboard.SetText(email);
                 MessageBox.Show(
-                    "We couldn't open your email app.\nEmail copied to clipboard.",
+                    "Vi kunde inte öppna din email app.\nEmail var kopierad till urklipp.",
                     "Feedback",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information
@@ -136,12 +139,18 @@ namespace Math_Parser_1._0.View.UserControls
 
             Clipboard.SetText(email);
             MessageBox.Show(
-                "Email copied to clipboard.",
+                "Email var kopierad till urklipp.",
                 "Feedback",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information
                 );
         }
+
+
+
+
+
+
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
 
@@ -181,6 +190,9 @@ namespace Math_Parser_1._0.View.UserControls
                
             }
         }
+
+
+
         private void Next_Click(object sender, RoutedEventArgs e)
         {
 
@@ -201,5 +213,7 @@ namespace Math_Parser_1._0.View.UserControls
             TrackInfoText.Text = line + line;
             
         }
+
+        
     }
 }

@@ -36,6 +36,7 @@ namespace Math_Parser_1._0.View.UserControls
         Line Xaxis;
 
         int pxPerdivition = 50;
+        public static double Scale { get; set; } = 50.0;
         #endregion
         public GraphControl()
         {
@@ -58,6 +59,16 @@ namespace Math_Parser_1._0.View.UserControls
             Graph.MouseDown += MouseDown;
             Graph.MouseUp += MouseUp;
             Graph.Background = Brushes.Transparent; //не null 
+
+            Graph.MouseWheel += (s, e) =>
+            {
+                // Меняем масштаб в зависимости от прокрутки
+                double zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
+                Scale *= zoomFactor;
+
+                // Перерисовываем всё
+                Redraw(figuresInfo);
+            };
         }
         private void MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -113,8 +124,8 @@ namespace Math_Parser_1._0.View.UserControls
         void DrawGrid(Brush color, int thickness)
         {
             //YGrid
-            double remainder = YAxiswidthOffset % pxPerdivition;
-            for (double i = remainder; i < Graph.ActualWidth; i += pxPerdivition)
+            double remainder = YAxiswidthOffset % Scale;
+            for (double i = remainder; i < Graph.ActualWidth; i += Scale)
             {
                 var Yaxis = new Line();
                 Yaxis.Stroke = color;
@@ -130,8 +141,8 @@ namespace Math_Parser_1._0.View.UserControls
                     Graph.Children.Add(Yaxis);
             }
             //XGrid
-            remainder = XAxisheightOffset % pxPerdivition;
-            for (double i = remainder; i < Graph.ActualHeight; i += pxPerdivition)
+            remainder = XAxisheightOffset % Scale;
+            for (double i = remainder; i < Graph.ActualHeight; i += Scale)
             {
                 var Xaxis = new Line();
                 Xaxis.Stroke = color;
@@ -287,21 +298,21 @@ namespace Math_Parser_1._0.View.UserControls
         }
         double XMathToScreen(double math)
         {
-            return Yaxis.X1 + pxPerdivition * math;
+            return Yaxis.X1 + Scale * math;
         }
         double YMathToScreen(double math)
         {
-            return Xaxis.Y1 - pxPerdivition * math;
+            return Xaxis.Y1 - Scale * math;
         }
 
         double XScreenToMath(double screen)
         {
-            return (screen - YAxiswidthOffset) / pxPerdivition;
+            return (screen - YAxiswidthOffset) / Scale;
         }
 
         double YScreenToMath(double screen)
         {
-            return (screen - XAxisheightOffset) / pxPerdivition;
+            return (screen - XAxisheightOffset) / Scale;
         }
 
         //static public GraphPoint CreatePoint(MouseButtonEventArgs e, Canvas g)

@@ -18,7 +18,7 @@
             HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
             Margin="20"
-                Padding="2"
+                
             IsHitTestVisible="False">
             <TextBlock Name="TooltipText" Text="ТЕСТ" Foreground="Black" FontWeight="Bold" FontSize="15"/>
         </Border>
